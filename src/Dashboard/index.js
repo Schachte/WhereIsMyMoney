@@ -13,6 +13,7 @@ const INITIAL_STATE = Immutable.fromJS({
   sideLinks: [
     { title: "Dashboard", location: "href"},
     { title: "Budget", location: "href"},
+    { title: "Virtual Accounts", location: "href"},
   ]
 });
 
