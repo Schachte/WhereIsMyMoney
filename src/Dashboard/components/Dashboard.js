@@ -12,9 +12,9 @@ const Sidebar = (props) => {
     <div style={{float: 'left'}}>
       <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
         <ul className="nav nav-pills flex-column">
-          {props.links.map(link => {
+          {props.links.map((link, i) => {
             return (
-              <li key={link.title} className="nav-item">
+              <li key={`SIDEBAR_${i}`} className="nav-item">
                 <a className="nav-link" href="#">{link.title}</a>
               </li>
             )
@@ -33,9 +33,9 @@ const Header = (props) => {
         <a className="navbar-brand" href="#">FinEsse Budgeting Tool</a>
         <div className="pull-right" id="navbarsExampleDefault">
           <ul className="navbar-nav mr-auto">
-              {props.links.map(link => {
+              {props.links.map((link, i) => {
                 return (
-                  <li key={link.title} className="nav-item">
+                  <li key={`HEADER_${i}`} className="nav-item">
                     <a className="nav-link" href="#">{link.title}</a>
                   </li>
                 )

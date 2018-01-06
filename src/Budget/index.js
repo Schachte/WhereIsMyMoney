@@ -22,7 +22,9 @@ REDUCER LOGIC FLOW
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_BUDGET:
-      return INITIAL_STATE.updateIn(['budgetCategories'], arr => arr.concat([action.payload]))
+      console.log("Payload is:");
+      console.log(action.payload);
+      return state.updateIn(['budgetCategories'], arr => arr.push(Immutable.fromJS(action.payload)))
     default:
       return state;
   }
@@ -37,8 +39,6 @@ export const addBudget = createAction(ADD_BUDGET);
 ACTION REQUESTS
 ***************/
 export function addBudgetCategoryRequest(data) {
-  console.log("data is; " );
-  console.log(data);
   return (dispatch) => {
     dispatch(addBudget(data));
   }

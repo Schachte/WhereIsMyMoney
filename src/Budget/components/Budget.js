@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddBudgetForm from './AddBudgetForm';
+import BudgetTableView from './BudgetTableView';
 
 const metaProperties = {
   pageTitle: 'Review Current Budget',
@@ -38,12 +39,16 @@ export default class Budget extends Component {
         {budgetWidgets.map((widget, i) => {
           return <BudgetWidgetCard title={widget} key={i} />
         })}
-        <div className="card" style={{width: '65%', margin: 'auto', marginTop: '200px'}}>
+        <div className="card" style={{width: '65%', margin: 'auto', marginTop: '150px'}}>
           <h3 className="card-header">{metaProperties.budgetCardTitle}</h3>
           <div className="card-block" style={{padding: '20px'}}>
             <AddBudgetForm addBudget={this.props.addBudget} />
           </div>
         </div>
+        <div>
+          <BudgetTableView budgetCategories={this.props.budgetCategories} />
+        </div>
+
       </main>
       </div>
     )

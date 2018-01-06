@@ -20,16 +20,15 @@ class AddBudgetForm extends Component {
     });
   }
 
-  categoryInput({input, label, meta: { touched, error }, ...custom}) {
+  categoryInput({input, type, label, meta: { touched, error }, ...custom}) {
     const hasError = touched && error !== undefined;
     const hasLabel = label !== undefined;
     return (
-      <div>
-        {/*add any error logic here*/}
-        {/*{hasError && <span>Hi</span>}*/}
-        {hasLabel && <span>{label}</span>}
+      <div style={{marginTop: '15px'}}>
+        {hasLabel && <label>{label}</label>}
         <input
-          className='test'
+          id={label}
+          className='form-control'
           {...input}
           {...custom}
         />
@@ -37,21 +36,24 @@ class AddBudgetForm extends Component {
     )
   }
 
-  renderDatePicker({input, placeholder, meta: {touched, error} }) {
+  renderDatePicker({input, label, placeholder, meta: {touched, error} }) {
+    const hasLabel = label !== undefined;
     return (
       <div>
-            <DatePicker {...input} value = {this.state.startDate.toDate().toUTCString()} dateForm="MM/DD/YYYY" onChange={this.handleChange} />
-            {touched && error && <span>{error}</span>}
+        {hasLabel && <label>{label}</label>}
+        <DatePicker id={label} className='form-control' {...input} value = {this.state.startDate.toDate().toUTCString()} dateForm="MM/DD/YYYY" onChange={this.handleChange} />
+        {touched && error && <span>{error}</span>}
       </div>
     )
   };
 
   submit(dataValues) {
     const formData = dataValues.toJS();
+    console.log(formData)
     this.props.addBudget({
       budgetName: formData.budgetCategory,
       monthlyCost: formData.budgetMonthlyCost,
-      rollOverEnabled: formData.budgetRollover,
+      rollOverEnabled: formData.budgetRollover = (formData.budgetRollover == 'true'),
       dueDate: this.state.startDate.toDate().toUTCString()
     });
   }
@@ -59,13 +61,28 @@ class AddBudgetForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
-        <Field name='budgetCategory' component={this.categoryInput} placeholder="Enter Category of Budget"/>
-        <Field name='budgetMonthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost"/>
-        <Field name='budgetRollover' component={this.categoryInput} type="checkbox" label="Budget Rollover Next Month" />
-        <Field name='budgetDateDue' component={this.renderDatePicker.bind(this)}  />
-        <button type='submit'>Submit</button>
-      </form>
+      <div className='form-group'>
+        <form onSubmit={handleSubmit(this.submit.bind(this))}>
+          <Field name='budgetCategory' component={this.categoryInput} placeholder="Enter Category of Budget" label="Budget Category"/>
+          <Field name='budgetMonthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost" label="Monthly Budget: "/>
+          <div style={{marginTop: '10px'}}>
+            <label>Budget Rollover</label><br/>
+            <label>
+              <Field name='budgetRollover' component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
+              {' '}
+              Enable Budget Rollover
+            </label>
+            <label>
+              <Field name='budgetRollover' component='input' type="radio" value={"false"} label="Budget Rollover Next Month" />
+              {' '}
+              Disable Budget Rollover
+            </label>
+          </div>
+          <Field name='budgetDateDue' component={this.renderDatePicker.bind(this)} label="Budget Due Date" />
+          <br/>
+          <button type='submit' className='btn btn-primary'>Submit</button>
+        </form>
+      </div>
     )
   }
 }
