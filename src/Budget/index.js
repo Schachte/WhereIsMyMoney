@@ -16,12 +16,13 @@ TYPES
 ***************/
 export const ADD_BUDGET = 'src/Budget/ADD_BUDGET';
 
+/**************
+REDUCER LOGIC FLOW
+***************/
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_BUDGET:
-      console.log('Action payload for adding a budget is' + action.payload)
-      console.log(action.payload);
-      return state;
+      return INITIAL_STATE.updateIn(['budgetCategories'], arr => arr.concat([action.payload]))
     default:
       return state;
   }
@@ -36,7 +37,9 @@ export const addBudget = createAction(ADD_BUDGET);
 ACTION REQUESTS
 ***************/
 export function addBudgetCategoryRequest(data) {
+  console.log("data is; " );
+  console.log(data);
   return (dispatch) => {
-    dispatch(actionTest(data));
+    dispatch(addBudget(data));
   }
 }

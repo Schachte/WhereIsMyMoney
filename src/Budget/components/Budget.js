@@ -15,7 +15,7 @@ const budgetWidgets = [
 
 const BudgetWidgetCard = (props) => {
   return (
-    <div className="col-1 col-sm-3 placeholder" style={{float: 'left'}} key={props.key}>
+    <div className="col-1 col-sm-3 placeholder" style={{float: 'left'}} key={`CARD_${props.i}`}>
       <div className="card card-inverse" style={{backgroundColor: "#333", borderColor: "#333", color: "#FFF", padding: "10px"}}>
         <div className="card-block">
           <h4 className="card-title">{props.title}</h4>
@@ -26,6 +26,10 @@ const BudgetWidgetCard = (props) => {
 }
 
 export default class Budget extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render(){
     return (
       <div>
@@ -37,8 +41,7 @@ export default class Budget extends Component {
         <div className="card" style={{width: '65%', margin: 'auto', marginTop: '200px'}}>
           <h3 className="card-header">{metaProperties.budgetCardTitle}</h3>
           <div className="card-block" style={{padding: '20px'}}>
-            This is where we are going to want to implement the redux form
-            <AddBudgetForm />
+            <AddBudgetForm addBudget={this.props.addBudget} />
           </div>
         </div>
       </main>
