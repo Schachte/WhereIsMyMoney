@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BudgetTableRowEdit from './BudgetTableRowEdit';
-import { makeFieldEditable } from './BudgetHelpers';
+import { makeFieldEditable, constructSubmittedFormObject } from './BudgetHelpers';
 import { BudgetTableRowView } from './BudgetTableRowView';
 
 export default class BudgetTable extends Component {
@@ -8,11 +8,9 @@ export default class BudgetTable extends Component {
   constructor(props) {
     super(props);
     this.toggleEditableRow = this.toggleEditableRow.bind(this);
-    this.state = {}
-  }
-
-  componentWillMount() {
-    this.setState({makeRowNumEditable: false})
+    this.state = {
+      makeRowNumEditable: -1
+    }
   }
 
   toggleEditableRow(e, rowNum = -1) {
@@ -30,7 +28,7 @@ export default class BudgetTable extends Component {
             <BudgetTableRowEdit
               key={`EDIT_${rowIndex}`}
               budgetObject={budgetObject}
-              toggleEditableRow={this.toggleEditableRow}
+              toggleEditableRow={(e) => this.toggleEditableRow(e, rowIndex)}
               rowIndex={rowIndex}
              />
           )
@@ -51,7 +49,9 @@ export default class BudgetTable extends Component {
 
   submitFormDataEditable(event) {
     event.preventDefault();
-    console.log((event.target));
+    let formObject = constructSubmittedFormObject(event.target);
+    let editedStateIndex = this.state.makeRowNumEditable;
+    this.props.updateBudgetEntry(formObject, editedStateIndex);
   }
 
   render() {

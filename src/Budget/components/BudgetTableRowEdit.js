@@ -39,7 +39,8 @@ class BudgetTableEdit extends Component {
   }
 
   handlerollOverEnabledChange(event) {
-    this.setState({ rollOverEnabled: event.target.value })
+    console.log(event.target)
+    this.setState({ rollOverEnabled: !event.target.value })
   }
 
   renderDateField(fieldValue, fieldIndex, changeHandler) {
@@ -70,8 +71,8 @@ class BudgetTableEdit extends Component {
   renderRadioButtonGroup(fieldValue, fieldIndex, changeHandler) {
     return (
       <td key={`FIELD_INDEX_${fieldIndex}`}>
-        <input onChange={changeHandler} checked={this.state.rollOverEnabled} type="radio"  name="rollover" value="enabled"/>Enabled
-        <input onChange={changeHandler} type="radio" checked={!this.state.rollOverEnabled} name="rollover" value="disabled"/>Disabled
+        <input onChange={changeHandler} checked={this.state.rollOverEnabled} type="radio"  name="rollover" value={true}/>Enabled
+        <input onChange={changeHandler}  checked={!this.state.rollOverEnabled} type="radio" name="rollover" value={false}/>Disabled
       </td>
     )
   }

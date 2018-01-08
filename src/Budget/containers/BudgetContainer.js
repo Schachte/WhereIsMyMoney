@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import Budget from '../components/Budget';
 import { bindActionCreators } from 'redux';
+import { createSelector } from 'reselect';
 import {
   addBudgetCategoryRequest,
-  updateFieldEnableRequest
+  updateFieldEnableRequest,
+  updateBudgetEntry
 } from '..';
 
 const mapStateToProps = state => {
@@ -18,6 +20,7 @@ const mapDispatchToProps = dispatch => {
   return {
     addBudget: (budget) => dispatch(addBudgetCategoryRequest(budget)),
     updateFieldEnableRequest: (field) => dispatch(updateFieldEnableRequest(field)),
+    updateBudgetEntry: (newBudget, editedStateIndex) => dispatch(updateBudgetEntry({newBudget, editedStateIndex})),
   }
 }
 

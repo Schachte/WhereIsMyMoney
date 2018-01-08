@@ -50,6 +50,7 @@ export default class Budget extends Component {
             userBudgetItems={this.props.userBudgetItems}
             updateFieldEnableRequest={this.props.updateFieldEnableRequest}
             budgetFormEditable={this.props.budgetFormEditable}
+            updateBudgetEntry={this.props.updateBudgetEntry}
             reduxForm={this.props.reduxForm}
           />
         </div>

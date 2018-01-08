@@ -16,7 +16,8 @@ const INITIAL_STATE = Immutable.fromJS({
 TYPES
 ***************/
 export const ADD_BUDGET = 'src/Budget/ADD_BUDGET';
-export const UPDATE_FIELD_ENABLE= 'src/Budget/UPDATE_FIELD_ENABLE';
+export const UPDATE_FIELD_ENABLE = 'src/Budget/UPDATE_FIELD_ENABLE';
+export const UPDATE_BUDGET_ENTRY = 'src/Budget/UPDATE_BUDGET_ENTRY';
 
 /**************
 REDUCER LOGIC FLOW
@@ -29,6 +30,14 @@ export default function (state = INITIAL_STATE, action) {
     case UPDATE_FIELD_ENABLE:
       return state.setIn(['budgetFormEditable'], Immutable.fromJS(action.payload));
 
+    case UPDATE_BUDGET_ENTRY:
+      return (state.setIn(
+        [
+          'budgetCategories',
+          action.payload.editedStateIndex,
+        ], Immutable.fromJS({budgetName:'hi', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02/20/1995'})));
+
+
     default:
       return state;
   }
@@ -39,10 +48,12 @@ ACTIONS CREATORS
 ***************/
 export const addBudget = createAction(ADD_BUDGET);
 export const updateFieldEnable = createAction(UPDATE_FIELD_ENABLE);
+export const updateBudgetEntry = createAction(UPDATE_BUDGET_ENTRY);
 
 /**************
 ACTION REQUESTS
 ***************/
+//TODO: Honestly, this is pretty unnecessary as I am not resolving promises
 export function addBudgetCategoryRequest(data) {
   return (dispatch) => {
     dispatch(addBudget(data));
