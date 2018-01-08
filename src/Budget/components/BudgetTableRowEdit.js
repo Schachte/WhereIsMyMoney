@@ -19,67 +19,61 @@ class BudgetTableEdit extends Component {
     super(props)
     this.state = {
       startDate: moment(),
-      rollOverEnabled: null
+      budgetName: this.props.budgetObject.budgetName,
+      monthlyCost: this.props.budgetObject.monthlyCost,
+      rollOverEnabled: this.props.budgetObject.rollOverEnabled,
+      dueDate: moment(Date.parse(this.props.budgetObject.dueDate))
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({
-      rollOverEnabled: this.props.budgetObject.rollOverEnabled
-    })
+  handleDateChange(date) {
+    this.setState({ startDate: date, dueDate: date});
   }
 
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
+  handleBudgetNameChange(event) {
+    this.setState({ budgetName: event.target.value});
   }
 
-  renderDateField(fieldValue, fieldIndex) {
+  handleMonthlyCostChange(event) {
+    this.setState({ monthlyCost: event.target.value});
+  }
+
+  handlerollOverEnabledChange(event) {
+    this.setState({ rollOverEnabled: event.target.value })
+  }
+
+  renderDateField(fieldValue, fieldIndex, changeHandler) {
     return (
       <td key={`FIELD_INDEX_${fieldIndex}`}>
-        <DatePicker className='form-control' style={{width: '100%'}} className='form-control' value = {this.state.startDate.format('DD').toString()} dateForm="MM/DD/YYYY" onChange={this.handleChange} />
+        <DatePicker className='form-control'
+          style={{width: '100%'}}
+          className='form-control'
+          value = {this.state.dueDate.format('DD').toString()}
+          dateForm="MM/DD/YYYY"
+          onChange={changeHandler} />
       </td>
     )
   };
 
-  renderInputField(fieldValue, fieldIndex) {
+  renderInputField(fieldValue, fieldIndex, changeHandler) {
     return (
       <td key={`FIELD_INDEX_${fieldIndex}`}>
         <input
+          className='form-control'
           defaultValue={fieldValue}
+          onChange={changeHandler}
         />
       </td>
     )
   }
 
-  renderInputFieldCustom(fieldValue, fieldIndex) {
+  renderRadioButtonGroup(fieldValue, fieldIndex, changeHandler) {
     return (
       <td key={`FIELD_INDEX_${fieldIndex}`}>
-        <div className="input-group">
-           <div className="input-group-prepend">@</div>
-           <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="Username"/>
-         </div>
+        <input onChange={changeHandler} checked={this.state.rollOverEnabled} type="radio"  name="rollover" value="enabled"/>Enabled
+        <input onChange={changeHandler} type="radio" checked={!this.state.rollOverEnabled} name="rollover" value="disabled"/>Disabled
       </td>
     )
-  }
-
-  toggleRollover() {
-    this.setState({rollOverEnabled: !this.state.rollOverEnabled})
-  }
-
-  renderRadioButtonGroup(fieldValue, fieldIndex) {
-    return (
-      <td key={`FIELD_INDEX_${fieldIndex}`}>
-        <input onChange={this.toggleRollover.bind(this)} checked={this.state.rollOverEnabled} type="radio"  name="rollover" value="enabled"/> Enabled
-        <input onChange={this.toggleRollover.bind(this)} type="radio" checked={!this.state.rollOverEnabled} name="rollover" value="disabled" /> Disabled
-      </td>
-    )
-  }
-
-  submit(e,data) {
-    e.preventDefault();
   }
 
   populateEditableFieldArea() {
@@ -87,7 +81,7 @@ class BudgetTableEdit extends Component {
 
     let inputFieldIndicies = {
       budgetCategory: 0,
-      monthlyAmount: 1,
+      monthlyCost: 1,
       rollOverEnabled: 2,
       dueDate: 3
     }
@@ -96,19 +90,19 @@ class BudgetTableEdit extends Component {
       Object.keys(budgetObject).map((budgetKey, fieldIndex) => {
         switch(fieldIndex) {
           case inputFieldIndicies.budgetCategory:
-            return this.renderInputField(budgetObject[budgetKey], fieldIndex)
+            return this.renderInputField(this.state.budgetName, fieldIndex, this.handleBudgetNameChange.bind(this))
             break;
 
-          case inputFieldIndicies.monthlyAmount:
-            return this.renderInputFieldCustom(budgetObject[budgetKey], fieldIndex)
+          case inputFieldIndicies.monthlyCost:
+            return this.renderInputField(this.state.monthlyCost, fieldIndex, this.handleMonthlyCostChange.bind(this))
             break;
 
           case inputFieldIndicies.rollOverEnabled:
-            return this.renderRadioButtonGroup(budgetObject[budgetKey], fieldIndex)
+            return this.renderRadioButtonGroup(this.state.rollOverEnabled, fieldIndex, this.handlerollOverEnabledChange.bind(this))
             break;
 
           case inputFieldIndicies.dueDate:
-            return this.renderDateField(budgetObject[budgetKey], fieldIndex)
+            return this.renderDateField(this.state.dueDate, fieldIndex, this.handleDateChange.bind(this))
             break;
         }
       })
@@ -116,13 +110,12 @@ class BudgetTableEdit extends Component {
   }
 
   render() {
-
     const { budgetObject, toggleEditableRow, rowIndex, handleSubmit } = this.props;
     return (
       <tr>
         {this.populateEditableFieldArea()}
         <td>
-          <button type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Save Budget
           </button>
         </td>

@@ -49,27 +49,32 @@ export default class BudgetTable extends Component {
     )
   }
 
-render() {
-  return (
-      <div style={{width: '70%', margin: 'auto', marginTop: '3em'}}>
-        <form>
-          <table className="table">
-            <thead className="thead-inverse">
-              <tr>
-                <th>Budget Category</th>
-                <th>Amount</th>
-                <th>RollOver Enabled</th>
-                <th>Due Date</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderBudgetRow()}
-            </tbody>
-          </table>
-        </form>
-      </div>
-    )
-  };
+  submitFormDataEditable(event) {
+    event.preventDefault();
+    console.log((event.target));
+  }
+
+  render() {
+    return (
+        <div style={{width: '70%', margin: 'auto', marginTop: '3em'}}>
+          <form onSubmit={this.submitFormDataEditable.bind(this)}>
+            <table className="table">
+              <thead className="thead-inverse">
+                <tr>
+                  <th>Budget Category</th>
+                  <th>Amount</th>
+                  <th>RollOver Enabled</th>
+                  <th>Due Date</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderBudgetRow()}
+              </tbody>
+            </table>
+          </form>
+        </div>
+      )
+    };
 }

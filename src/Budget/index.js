@@ -7,7 +7,7 @@ INITIAL STATE
 ***************/
 const INITIAL_STATE = Immutable.fromJS({
   budgetCategories: [
-    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: 'monthly'}
+    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02/20/1995'}
   ],
   budgetFormEditable: {editable: false, fieldName: null}
 });
