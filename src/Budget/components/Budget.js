@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AddBudgetForm from './AddBudgetForm';
-import BudgetTableView from './BudgetTableView';
+import BudgetTable from './BudgetTable';
 
 const metaProperties = {
   pageTitle: 'Review Current Budget',
@@ -46,7 +46,12 @@ export default class Budget extends Component {
           </div>
         </div>
         <div>
-          <BudgetTableView budgetCategories={this.props.budgetCategories} />
+          <BudgetTable
+            userBudgetItems={this.props.userBudgetItems}
+            updateFieldEnableRequest={this.props.updateFieldEnableRequest}
+            budgetFormEditable={this.props.budgetFormEditable}
+            reduxForm={this.props.reduxForm}
+          />
         </div>
 
       </main>

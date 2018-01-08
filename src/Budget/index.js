@@ -7,14 +7,16 @@ INITIAL STATE
 ***************/
 const INITIAL_STATE = Immutable.fromJS({
   budgetCategories: [
-    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled: true, dueDate: 'monthly'}
-  ]
+    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: 'monthly'}
+  ],
+  budgetFormEditable: {editable: false, fieldName: null}
 });
 
 /**************
 TYPES
 ***************/
 export const ADD_BUDGET = 'src/Budget/ADD_BUDGET';
+export const UPDATE_FIELD_ENABLE= 'src/Budget/UPDATE_FIELD_ENABLE';
 
 /**************
 REDUCER LOGIC FLOW
@@ -22,9 +24,11 @@ REDUCER LOGIC FLOW
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_BUDGET:
-      console.log("Payload is:");
-      console.log(action.payload);
       return state.updateIn(['budgetCategories'], arr => arr.push(Immutable.fromJS(action.payload)))
+
+    case UPDATE_FIELD_ENABLE:
+      return state.setIn(['budgetFormEditable'], Immutable.fromJS(action.payload));
+
     default:
       return state;
   }
@@ -34,6 +38,7 @@ export default function (state = INITIAL_STATE, action) {
 ACTIONS CREATORS
 ***************/
 export const addBudget = createAction(ADD_BUDGET);
+export const updateFieldEnable = createAction(UPDATE_FIELD_ENABLE);
 
 /**************
 ACTION REQUESTS
@@ -41,5 +46,11 @@ ACTION REQUESTS
 export function addBudgetCategoryRequest(data) {
   return (dispatch) => {
     dispatch(addBudget(data));
+  }
+}
+
+export function updateFieldEnableRequest(data) {
+  return (dispatch) => {
+    dispatch(updateFieldEnable(data))
   }
 }

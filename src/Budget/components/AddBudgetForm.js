@@ -41,7 +41,7 @@ class AddBudgetForm extends Component {
     return (
       <div>
         {hasLabel && <label>{label}</label>}
-        <DatePicker id={label} className='form-control' {...input} value = {this.state.startDate.toDate().toUTCString()} dateForm="MM/DD/YYYY" onChange={this.handleChange} />
+        <DatePicker id={label} className='form-control' {...input} value = {this.state.startDate.format('DD')} onChange={this.handleChange} />
         {touched && error && <span>{error}</span>}
       </div>
     )
@@ -54,7 +54,7 @@ class AddBudgetForm extends Component {
       budgetName: formData.budgetCategory,
       monthlyCost: formData.budgetMonthlyCost,
       rollOverEnabled: formData.budgetRollover = (formData.budgetRollover == 'true'),
-      dueDate: this.state.startDate.toDate().toUTCString()
+      dueDate: this.state.startDate.format('DD').toString()
     });
   }
 
@@ -68,7 +68,7 @@ class AddBudgetForm extends Component {
           <div style={{marginTop: '10px'}}>
             <label>Budget Rollover</label><br/>
             <label>
-              <Field name='budgetRollover' component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
+              <Field name='budgetRollover' checked="checked" component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
               {' '}
               Enable Budget Rollover
             </label>
@@ -78,7 +78,7 @@ class AddBudgetForm extends Component {
               Disable Budget Rollover
             </label>
           </div>
-          <Field name='budgetDateDue' component={this.renderDatePicker.bind(this)} label="Budget Due Date" />
+          <Field name='budgetDateDue' component={this.renderDatePicker.bind(this)} label="Day of Month Due" />
           <br/>
           <button type='submit' className='btn btn-primary'>Submit</button>
         </form>
