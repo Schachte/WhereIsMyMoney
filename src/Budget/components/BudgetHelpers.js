@@ -34,7 +34,13 @@ export function constructSubmittedFormObject(formObject) {
   })
   return newFormSubmission;
 }
+
+export function momentObjectToDayString(momentDateObject) {
+  return momentDateObject.format('DD').toString();
+}
+
 export default {
   makeFieldEditable,
-  constructSubmittedFormObject
+  constructSubmittedFormObject,
+  momentObjectToDayString
 };

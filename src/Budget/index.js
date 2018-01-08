@@ -1,13 +1,14 @@
 import Immutable from 'immutable'
 import { createAction } from 'redux-actions';
 import axios from 'axios';
+import moment from 'moment';
 
 /**************
 INITIAL STATE
 ***************/
 const INITIAL_STATE = Immutable.fromJS({
   budgetCategories: [
-    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02/20/1995'}
+    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02'}
   ],
   budgetFormEditable: {editable: false, fieldName: null}
 });
@@ -35,8 +36,7 @@ export default function (state = INITIAL_STATE, action) {
         [
           'budgetCategories',
           action.payload.editedStateIndex,
-        ], Immutable.fromJS({budgetName:'hi', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02/20/1995'})));
-
+        ], Immutable.fromJS(action.payload.newBudget)));
 
     default:
       return state;

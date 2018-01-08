@@ -52,6 +52,10 @@ export default class BudgetTable extends Component {
     let formObject = constructSubmittedFormObject(event.target);
     let editedStateIndex = this.state.makeRowNumEditable;
     this.props.updateBudgetEntry(formObject, editedStateIndex);
+
+    this.setState({
+      makeRowNumEditable: -1
+    })
   }
 
   render() {

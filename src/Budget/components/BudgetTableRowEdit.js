@@ -22,12 +22,12 @@ class BudgetTableEdit extends Component {
       budgetName: this.props.budgetObject.budgetName,
       monthlyCost: this.props.budgetObject.monthlyCost,
       rollOverEnabled: this.props.budgetObject.rollOverEnabled,
-      dueDate: moment(Date.parse(this.props.budgetObject.dueDate))
+      dueDate: this.props.budgetObject.dueDate
     };
   }
 
-  handleDateChange(date) {
-    this.setState({ startDate: date, dueDate: date});
+  handleDateChange(momentDate) {
+    this.setState({ dueDate: momentDate.format('DD')})
   }
 
   handleBudgetNameChange(event) {
@@ -49,12 +49,13 @@ class BudgetTableEdit extends Component {
         <DatePicker className='form-control'
           style={{width: '100%'}}
           className='form-control'
-          value = {this.state.dueDate.format('DD').toString()}
-          dateForm="MM/DD/YYYY"
-          onChange={changeHandler} />
+          value = {this.state.dueDate}
+          dateForm="MM/DD/YY"
+          onChange={changeHandler}
+         />
       </td>
     )
-  };
+  }
 
   renderInputField(fieldValue, fieldIndex, changeHandler) {
     return (
