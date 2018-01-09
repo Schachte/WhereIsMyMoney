@@ -11,6 +11,7 @@ export default class App extends Component {
           <div>
             <Dashboard />
             <Route path="/editBudget" component={Budget} />
+            <Route path="/settings" component={Budget} />
           </div>
         </Router>
       </div>
