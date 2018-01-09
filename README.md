@@ -1,4 +1,4 @@
-# FinEsse Budgeting Tool
+# WhereIsMyMoney
 
 ### Getting Started
 
