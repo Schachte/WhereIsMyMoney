@@ -9,7 +9,7 @@ export function BudgetTableRowView (props) {
     <tr>
       <td>{b.budgetName}</td>
       <td>${parseFloat(b.monthlyCost).toFixed(2)}</td>
-      <td>{b.rollOverEnabled == true ? "Rollover Enabled" : "Rollover Disabled"}</td>
+      <td>{b.rollOverEnabled == "rollOverEnabled" ? "Rollover Enabled" : "Rollover Disabled"}</td>
       <td>{b.dueDate}</td>
       <td><button className="btn btn-warning" type="submit" onClick={(e) => props.toggleEditableRow(e, rowIndex)}>Edit Budget Item</button></td>
     </tr>
