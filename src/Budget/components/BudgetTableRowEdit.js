@@ -39,7 +39,6 @@ class BudgetTableEdit extends Component {
   }
 
   handlerollOverEnabledChange(event) {
-    console.log(event.target)
     this.setState({ rollOverEnabled: !event.target.value })
   }
 
@@ -82,7 +81,7 @@ class BudgetTableEdit extends Component {
     let budgetObject = this.props.budgetObject;
 
     let inputFieldIndicies = {
-      budgetCategory: 0,
+      budgetName: 0,
       monthlyCost: 1,
       rollOverEnabled: 2,
       dueDate: 3
@@ -91,7 +90,7 @@ class BudgetTableEdit extends Component {
     return (
       Object.keys(budgetObject).map((budgetKey, fieldIndex) => {
         switch(fieldIndex) {
-          case inputFieldIndicies.budgetCategory:
+          case inputFieldIndicies.budgetName:
             return this.renderInputField(this.state.budgetName, fieldIndex, this.handleBudgetNameChange.bind(this))
             break;
 
@@ -117,7 +116,7 @@ class BudgetTableEdit extends Component {
       <tr>
         {this.populateEditableFieldArea()}
         <td>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" onClick={(event) => this.props.submitEditedFormDataAndResetForm(event, this.state)} className="btn btn-primary">
             Save Budget
           </button>
         </td>

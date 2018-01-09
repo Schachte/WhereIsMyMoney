@@ -9,27 +9,38 @@ export default class BudgetTable extends Component {
     super(props);
     this.toggleEditableRow = this.toggleEditableRow.bind(this);
     this.state = {
-      makeRowNumEditable: -1
+      formRowBeingEdited: -1
     }
   }
 
   toggleEditableRow(e, rowNum = -1) {
     e.preventDefault();
     this.setState({
-      makeRowNumEditable: rowNum
+      formRowBeingEdited: rowNum
     })
+  }
+
+  makeFormNonEditable() {
+    this.setState({
+      formRowBeingEdited: -1
+    })
+  }
+
+  retrieveEditedFormRow() {
+    return this.state.formRowBeingEdited;
   }
 
   renderBudgetRow() {
     return (
       this.props.userBudgetItems.map((budgetObject, rowIndex) => {
-        if (this.state.makeRowNumEditable === rowIndex) {
+        if (this.state.formRowBeingEdited === rowIndex) {
           return (
             <BudgetTableRowEdit
               key={`EDIT_${rowIndex}`}
               budgetObject={budgetObject}
               toggleEditableRow={(e) => this.toggleEditableRow(e, rowIndex)}
               rowIndex={rowIndex}
+              submitEditedFormDataAndResetForm={this.submitEditedFormDataAndResetForm.bind(this)}
              />
           )
         }
@@ -47,21 +58,19 @@ export default class BudgetTable extends Component {
     )
   }
 
-  submitFormDataEditable(event) {
-    event.preventDefault();
-    let formObject = constructSubmittedFormObject(event.target);
-    let editedStateIndex = this.state.makeRowNumEditable;
-    this.props.updateBudgetEntry(formObject, editedStateIndex);
-
-    this.setState({
-      makeRowNumEditable: -1
-    })
+  submitEditedFormDataAndResetForm(e, data) {
+    e.preventDefault();
+    this.props.updateBudgetEntry(
+      constructSubmittedFormObject(data),
+      this.retrieveEditedFormRow()
+    );
+    this.makeFormNonEditable();
   }
 
   render() {
     return (
         <div style={{width: '70%', margin: 'auto', marginTop: '3em'}}>
-          <form onSubmit={this.submitFormDataEditable.bind(this)}>
+          <form>
             <table className="table">
               <thead className="thead-inverse">
                 <tr>

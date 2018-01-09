@@ -32,11 +32,11 @@ export default function (state = INITIAL_STATE, action) {
       return state.setIn(['budgetFormEditable'], Immutable.fromJS(action.payload));
 
     case UPDATE_BUDGET_ENTRY:
-      return (state.setIn(
+      return state.setIn(
         [
           'budgetCategories',
           action.payload.editedStateIndex,
-        ], Immutable.fromJS(action.payload.newBudget)));
+        ], Immutable.fromJS(action.payload.newBudget));
 
     default:
       return state;

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { makeFieldEditable, momentObjectToDayString } from './BudgetHelpers';
+import { makeFieldEditable } from './BudgetHelpers';
 import moment from 'moment';
 
 export function BudgetTableRowView (props) {
   let rowIndex = props.rowIndex;
   let b = props.budgetObject;
-  console.log(b.dueDate)
   return (
     <tr>
       <td>{b.budgetName}</td>

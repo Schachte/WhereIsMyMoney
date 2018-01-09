@@ -49,11 +49,10 @@ class AddBudgetForm extends Component {
 
   submit(dataValues) {
     const formData = dataValues.toJS();
-    console.log(formData)
     this.props.addBudget({
-      budgetName: formData.budgetCategory,
-      monthlyCost: formData.budgetMonthlyCost,
-      rollOverEnabled: formData.budgetRollover = (formData.budgetRollover == 'true'),
+      budgetName: formData.budgetName,
+      monthlyCost: formData.monthlyCost,
+      rollOverEnabled: formData.rollOverEnabled= (formData.budgetRollover == 'true'),
       dueDate: this.state.startDate.format('DD').toString()
     });
   }
@@ -62,23 +61,23 @@ class AddBudgetForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <div className='form-group'>
-        <form onSubmit={handleSubmit(this.submit.bind(this))}>
-          <Field name='budgetCategory' component={this.categoryInput} placeholder="Enter Category of Budget" label="Budget Category"/>
-          <Field name='budgetMonthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost" label="Monthly Budget: "/>
+        <form onSubmit={handleSubmit((e) => this.submit(e))}>
+          <Field name='budgetName' component={this.categoryInput} placeholder="Enter Category of Budget" label="Budget Category"/>
+          <Field name='monthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost" label="Monthly Budget: "/>
           <div style={{marginTop: '10px'}}>
             <label>Budget Rollover</label><br/>
             <label>
-              <Field name='budgetRollover' checked="checked" component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
+              <Field name='rollOverEnabled' checked="checked" component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
               {' '}
               Enable Budget Rollover
             </label>
             <label>
-              <Field name='budgetRollover' component='input' type="radio" value={"false"} label="Budget Rollover Next Month" />
+              <Field name='rollOverEnabled' component='input' type="radio" value={"false"} label="Budget Rollover Next Month" />
               {' '}
               Disable Budget Rollover
             </label>
           </div>
-          <Field name='budgetDateDue' component={this.renderDatePicker.bind(this)} label="Day of Month Due" />
+          <Field name='dueDate' component={this.renderDatePicker.bind(this)} label="Day of Month Due" />
           <br/>
           <button type='submit' className='btn btn-primary'>Submit</button>
         </form>

@@ -6,41 +6,15 @@ export function makeFieldEditable(fieldData, updateFieldEnableRequest, editable)
 }
 
 export function constructSubmittedFormObject(formObject) {
-  let numberOfRelevantFormFields = 5;
-  let disabledRadioButton = 3;
-
-  let newFormSubmission = {
-    budgetName: null,
-    monthlyCost: null,
-    rollOverEnabled: null,
-    dueDate: null
-  }
-
-  Object.keys(formObject).forEach((formField) => {
-    switch (Number(formField)) {
-      case 0:
-        newFormSubmission.budgetName = formObject[formField].value;
-        break;
-      case 1:
-        newFormSubmission.monthlyCost = formObject[formField].value;
-        break;
-      case 2:
-        newFormSubmission.rollOverEnabled = formObject[formField].value;
-        break;
-      case 4:
-        newFormSubmission.dueDate = formObject[formField].value;
-        break;
-    }
-  })
+  let newFormSubmission = {}
+  newFormSubmission.budgetName = formObject.budgetName;
+  newFormSubmission.monthlyCost= formObject.monthlyCost;
+  newFormSubmission.rollOverEnabled = formObject.rollOverEnabled;
+  newFormSubmission.dueDate = formObject.dueDate;
   return newFormSubmission;
-}
-
-export function momentObjectToDayString(momentDateObject) {
-  return momentDateObject.format('DD').toString();
 }
 
 export default {
   makeFieldEditable,
-  constructSubmittedFormObject,
-  momentObjectToDayString
+  constructSubmittedFormObject
 };
