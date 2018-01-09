@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, SubmissionError } from 'redux-form/immutable';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class AddBudgetForm extends Component {
 
-  categoryInput({input, meta: { touched, error }, ...custom}) {
+  constructor (props) {
+    super(props)
+    this.state = {
+      startDate: moment()
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
+  categoryInput({input, type, label, meta: { touched, error }, ...custom}) {
     const hasError = touched && error !== undefined;
+    const hasLabel = label !== undefined;
     return (
-      <div>
+      <div style={{marginTop: '15px'}}>
+        {touched && error && <span style={{color: 'red'}}>{error}</span>}
         <input
-          error={hasError}
-          placeholder='Insert Budget Category'
+          id={label}
+          className='form-control form-control-danger'
           {...input}
           {...custom}
         />
@@ -17,18 +36,52 @@ class AddBudgetForm extends Component {
     )
   }
 
+  renderDatePicker({input, label, placeholder, meta: {touched, error} }) {
+    const hasLabel = label !== undefined;
+    return (
+      <div>
+        {hasLabel && <label>{label}</label>}
+        <DatePicker id={label} className='form-control' {...input} value = {this.state.startDate.format('DD')} onChange={this.handleChange} />
+        {touched && error && <span style={{color: 'red'}}>{error}</span>}
+      </div>
+    )
+  };
+
   submit(dataValues) {
-    console.log(dataValues.toJS());
+    const formData = dataValues.toJS();
+    this.props.addBudget({
+      budgetName: formData.budgetName,
+      monthlyCost: formData.monthlyCost,
+      rollOverEnabled: formData.rollOverEnabled= (formData.budgetRollover == 'true'),
+      dueDate: this.state.startDate.format('DD').toString()
+    });
   }
 
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
-        <Field name='budgetCategory' component={this.categoryInput}/>
-        <Field name='budgetMonthlyCost' component={this.categoryInput} />
-        <button type='submit'>Submit</button>
-      </form>
+      <div className='form-group has-danger'>
+        <form onSubmit={handleSubmit((e) => this.submit(e))}>
+          <Field name='budgetName' component={this.categoryInput} placeholder="Enter Category of Budget" label="Budget Category"/>
+          <Field name='monthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost" label="Monthly Budget: "/>
+          <div style={{marginTop: '10px'}}>
+            <label>Budget Rollover</label><br/>
+            <label>
+              <Field name='rollOverEnabled' checked="checked" component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
+              {' '}
+              Enable Budget Rollover
+            </label>
+            <label>
+              <Field name='rollOverEnabled' component='input' type="radio" value={"false"} label="Budget Rollover Next Month" />
+              {' '}
+              Disable Budget Rollover
+            </label>
+          </div>
+          <Field name='dueDate' component={this.renderDatePicker.bind(this)} label="Day of Month Due" />
+          <br/>
+          <button type='submit' className='btn btn-primary'>Submit</button>
+        </form>
+      </div>
     )
   }
 }
@@ -37,8 +90,16 @@ const validate = (values) => {
   const errors = {};
   values = values.toJS();
 
-  if (!values.budget || values.budget.trim() === '') {
-    errors.budget = 'Budget Category Required!';
+  if (!values.budgetName || values.budgetName.trim() == "") {
+    errors.budgetName = "Add Budget Name";
+  }
+
+  if (
+      !values.monthlyCost               ||
+      values.monthlyCost.trim() == ""   ||
+      isNaN(values.monthlyCost)
+    ) {
+    errors.monthlyCost = "Enter Valid Monthly Budget Cost (ie. 450 or 550.40)";
   }
 
   return errors;
