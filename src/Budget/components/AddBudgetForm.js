@@ -9,7 +9,8 @@ class AddBudgetForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      startDate: moment()
+      startDate: moment(),
+      rollOverEnabled: "rollOverEnabled"
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -18,6 +19,13 @@ class AddBudgetForm extends Component {
     this.setState({
       startDate: date
     });
+  }
+
+  handleRollOverEnabledChange(data) {
+    console.log(data.target.value);
+    this.setState({
+      rollOverEnabled: data.target.value
+    })
   }
 
   categoryInput({input, type, label, meta: { touched, error }, ...custom}) {
@@ -52,7 +60,7 @@ class AddBudgetForm extends Component {
     this.props.addBudget({
       budgetName: formData.budgetName,
       monthlyCost: formData.monthlyCost,
-      rollOverEnabled: formData.rollOverEnabled= (formData.budgetRollover == 'true'),
+      rollOverEnabled:this.state.rollOverEnabled,
       dueDate: this.state.startDate.format('DD').toString()
     });
   }
@@ -67,12 +75,12 @@ class AddBudgetForm extends Component {
           <div style={{marginTop: '10px'}}>
             <label>Budget Rollover</label><br/>
             <label>
-              <Field name='rollOverEnabled' checked="checked" component='input' type="radio" value={"true"} label="Budget Rollover Next Month" />
+              <Field name='rollOverEnabled' onChange={this.handleRollOverEnabledChange.bind(this)} checked={this.state.rollOverEnabled == "rollOverEnabled"} component='input' type="radio" value={"rollOverEnabled"} label="Budget Rollover Next Month" />
               {' '}
               Enable Budget Rollover
             </label>
             <label>
-              <Field name='rollOverEnabled' component='input' type="radio" value={"false"} label="Budget Rollover Next Month" />
+              <Field name='rollOverEnabled' onChange={this.handleRollOverEnabledChange.bind(this)} checked={this.state.rollOverEnabled == "rollOverDisabled"} component='input' type="radio" value={"rollOverDisabled"} label="Budget Rollover Next Month" />
               {' '}
               Disable Budget Rollover
             </label>

@@ -33,7 +33,7 @@ const Header = withRouter((props) => {
     <div>
       <header>
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a className="navbar-brand" href="#">FinEsse Budgeting Tool</a>
+        <a className="navbar-brand" href="#">WhereIsMyMoney</a>
         <div className="pull-right" id="navbarsExampleDefault">
           <ul className="navbar-nav mr-auto">
               {props.links.map((link, i) => {
