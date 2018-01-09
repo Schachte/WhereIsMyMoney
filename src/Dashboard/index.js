@@ -7,13 +7,12 @@ INITIAL STATE
 ***************/
 const INITIAL_STATE = Immutable.fromJS({
   headerLinks: [
-    { title: "Home", location: "href"},
-    { title: "Settings", location: "href"}
+    { title: "Settings", location: "/settings"}
   ],
   sideLinks: [
-    { title: "Dashboard", location: "href"},
-    { title: "Budget", location: "href"},
-    { title: "Virtual Accounts", location: "href"},
+    { title: "Dashboard", location: "/"},
+    { title: "Budget", location: "/editBudget"},
+    { title: "Virtual Accounts", location: "/viewAccounts"},
   ]
 });
 

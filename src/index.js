@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { configureStore } from './configuration/store';
+import { Router, Route } from 'react-router';
 import App from './app';
 
 const store = configureStore();
