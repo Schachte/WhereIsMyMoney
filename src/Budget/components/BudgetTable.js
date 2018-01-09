@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BudgetTableRowEdit from './BudgetTableRowEdit';
-import { makeFieldEditable, constructSubmittedFormObject } from './BudgetHelpers';
+import { makeFieldEditable, constructSubmittedFormObject, checkEditedFormForErrors } from './BudgetHelpers';
 import { BudgetTableRowView } from './BudgetTableRowView';
 
 export default class BudgetTable extends Component {
@@ -41,6 +41,8 @@ export default class BudgetTable extends Component {
               toggleEditableRow={(e) => this.toggleEditableRow(e, rowIndex)}
               rowIndex={rowIndex}
               submitEditedFormDataAndResetForm={this.submitEditedFormDataAndResetForm.bind(this)}
+              addEditableFieldErrors={this.props.addEditableFieldErrors}
+              budgetFormEditableErrors={this.props.budgetFormEditableErrors}
              />
           )
         }
@@ -60,11 +62,14 @@ export default class BudgetTable extends Component {
 
   submitEditedFormDataAndResetForm(e, data) {
     e.preventDefault();
-    this.props.updateBudgetEntry(
-      constructSubmittedFormObject(data),
-      this.retrieveEditedFormRow()
-    );
-    this.makeFormNonEditable();
+
+    if (checkEditedFormForErrors(this.props.budgetFormEditableErrors)) {
+      this.props.updateBudgetEntry(
+        constructSubmittedFormObject(data),
+        this.retrieveEditedFormRow()
+      );
+      this.makeFormNonEditable();
+    }
   }
 
   render() {

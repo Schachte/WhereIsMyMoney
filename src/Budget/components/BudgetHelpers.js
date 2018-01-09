@@ -14,6 +14,11 @@ export function constructSubmittedFormObject(formObject) {
   return newFormSubmission;
 }
 
+export function checkEditedFormForErrors(state) {
+  console.log(state)
+  return (state.budgetNameError == false && state.monthlyCostError == false);
+}
+
 export default {
   makeFieldEditable,
   constructSubmittedFormObject

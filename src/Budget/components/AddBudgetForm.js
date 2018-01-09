@@ -25,10 +25,10 @@ class AddBudgetForm extends Component {
     const hasLabel = label !== undefined;
     return (
       <div style={{marginTop: '15px'}}>
-        {hasLabel && <label>{label}</label>}
+        {touched && error && <span style={{color: 'red'}}>{error}</span>}
         <input
           id={label}
-          className='form-control'
+          className='form-control form-control-danger'
           {...input}
           {...custom}
         />
@@ -42,7 +42,7 @@ class AddBudgetForm extends Component {
       <div>
         {hasLabel && <label>{label}</label>}
         <DatePicker id={label} className='form-control' {...input} value = {this.state.startDate.format('DD')} onChange={this.handleChange} />
-        {touched && error && <span>{error}</span>}
+        {touched && error && <span style={{color: 'red'}}>{error}</span>}
       </div>
     )
   };
@@ -60,7 +60,7 @@ class AddBudgetForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className='form-group'>
+      <div className='form-group has-danger'>
         <form onSubmit={handleSubmit((e) => this.submit(e))}>
           <Field name='budgetName' component={this.categoryInput} placeholder="Enter Category of Budget" label="Budget Category"/>
           <Field name='monthlyCost' component={this.categoryInput} placeholder="Enter Monthly Budget Cost" label="Monthly Budget: "/>
@@ -90,8 +90,16 @@ const validate = (values) => {
   const errors = {};
   values = values.toJS();
 
-  if (!values.budgetCategory || values.budgetCategory.trim() === '') {
-    errors.budgetCategory = 'Budget Category Required!';
+  if (!values.budgetName || values.budgetName.trim() == "") {
+    errors.budgetName = "Add Budget Name";
+  }
+
+  if (
+      !values.monthlyCost               ||
+      values.monthlyCost.trim() == ""   ||
+      isNaN(values.monthlyCost)
+    ) {
+    errors.monthlyCost = "Enter Valid Monthly Budget Cost (ie. 450 or 550.40)";
   }
 
   return errors;

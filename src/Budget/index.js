@@ -8,16 +8,16 @@ INITIAL STATE
 ***************/
 const INITIAL_STATE = Immutable.fromJS({
   budgetCategories: [
-    {budgetName: 'budgetName', monthlyCost: '$200.00', rollOverEnabled:true , dueDate: '02'}
+    {budgetName: 'budgetName', monthlyCost: '192', rollOverEnabled:true , dueDate: '02'}
   ],
-  budgetFormEditable: {editable: false, fieldName: null}
+  budgetFormEditable: {errors: [{budgetNameError: false, monthlyCostError: false}] },
 });
 
 /**************
 TYPES
 ***************/
 export const ADD_BUDGET = 'src/Budget/ADD_BUDGET';
-export const UPDATE_FIELD_ENABLE = 'src/Budget/UPDATE_FIELD_ENABLE';
+export const ADD_EDITABLE_FIELD_ERRORS = 'src/Budget/ADD_EDITABLE_FIELD_ERRORS';
 export const UPDATE_BUDGET_ENTRY = 'src/Budget/UPDATE_BUDGET_ENTRY';
 
 /**************
@@ -28,8 +28,8 @@ export default function (state = INITIAL_STATE, action) {
     case ADD_BUDGET:
       return state.updateIn(['budgetCategories'], arr => arr.push(Immutable.fromJS(action.payload)))
 
-    case UPDATE_FIELD_ENABLE:
-      return state.setIn(['budgetFormEditable'], Immutable.fromJS(action.payload));
+    case ADD_EDITABLE_FIELD_ERRORS:
+      return state.setIn(['budgetFormEditable', 'errors', 0], Immutable.fromJS(action.payload))
 
     case UPDATE_BUDGET_ENTRY:
       return state.setIn(
@@ -47,7 +47,7 @@ export default function (state = INITIAL_STATE, action) {
 ACTIONS CREATORS
 ***************/
 export const addBudget = createAction(ADD_BUDGET);
-export const updateFieldEnable = createAction(UPDATE_FIELD_ENABLE);
+export const addEditableFieldErrors = createAction(ADD_EDITABLE_FIELD_ERRORS);
 export const updateBudgetEntry = createAction(UPDATE_BUDGET_ENTRY);
 
 /**************
@@ -57,11 +57,5 @@ ACTION REQUESTS
 export function addBudgetCategoryRequest(data) {
   return (dispatch) => {
     dispatch(addBudget(data));
-  }
-}
-
-export function updateFieldEnableRequest(data) {
-  return (dispatch) => {
-    dispatch(updateFieldEnable(data))
   }
 }

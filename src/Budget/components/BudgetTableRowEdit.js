@@ -3,15 +3,10 @@ import { Field, reduxForm, SubmissionError } from 'redux-form/immutable';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-
-/************************
-FIELD-LEVEL VALIDATION
-************************/
-const checkDuplicateBudgetCategory = () => {
-}
-
-const checkNullFieldValue = () => {
-}
+import 'babel-polyfill'
+import {
+  checkNullValues
+} from './BudgetTableRowEditValidation'
 
 class BudgetTableEdit extends Component {
 
@@ -22,20 +17,23 @@ class BudgetTableEdit extends Component {
       budgetName: this.props.budgetObject.budgetName,
       monthlyCost: this.props.budgetObject.monthlyCost,
       rollOverEnabled: this.props.budgetObject.rollOverEnabled,
-      dueDate: this.props.budgetObject.dueDate
+      dueDate: this.props.budgetObject.dueDate,
+      errors: {}
     };
+  }
+
+  async handleBudgetNameChange(event) {
+    await this.setState({ budgetName: event.target.value});
+    this.props.addEditableFieldErrors(checkNullValues(this.state))
+  }
+
+  async handleMonthlyCostChange(event) {
+    await this.setState({ monthlyCost: event.target.value});
+    this.props.addEditableFieldErrors(checkNullValues(this.state))
   }
 
   handleDateChange(momentDate) {
     this.setState({ dueDate: momentDate.format('DD')})
-  }
-
-  handleBudgetNameChange(event) {
-    this.setState({ budgetName: event.target.value});
-  }
-
-  handleMonthlyCostChange(event) {
-    this.setState({ monthlyCost: event.target.value});
   }
 
   handlerollOverEnabledChange(event) {
@@ -56,9 +54,11 @@ class BudgetTableEdit extends Component {
     )
   }
 
-  renderInputField(fieldValue, fieldIndex, changeHandler) {
+  renderInputField(fieldValue, fieldIndex, changeHandler, fieldName) {
     return (
       <td key={`FIELD_INDEX_${fieldIndex}`}>
+        {this.props.budgetFormEditableErrors.budgetNameError && fieldName == 'budgetName' && <span style={{color: 'red'}}>Error</span>}
+        {this.props.budgetFormEditableErrors.monthlyCostError && fieldName == 'monthlyCost' && <span style={{color: 'red'}}>Error</span>}
         <input
           className='form-control'
           defaultValue={fieldValue}
@@ -91,11 +91,11 @@ class BudgetTableEdit extends Component {
       Object.keys(budgetObject).map((budgetKey, fieldIndex) => {
         switch(fieldIndex) {
           case inputFieldIndicies.budgetName:
-            return this.renderInputField(this.state.budgetName, fieldIndex, this.handleBudgetNameChange.bind(this))
+            return this.renderInputField(this.state.budgetName, fieldIndex, this.handleBudgetNameChange.bind(this), 'budgetName')
             break;
 
           case inputFieldIndicies.monthlyCost:
-            return this.renderInputField(this.state.monthlyCost, fieldIndex, this.handleMonthlyCostChange.bind(this))
+            return this.renderInputField(this.state.monthlyCost, fieldIndex, this.handleMonthlyCostChange.bind(this), 'monthlyCost')
             break;
 
           case inputFieldIndicies.rollOverEnabled:
@@ -112,6 +112,8 @@ class BudgetTableEdit extends Component {
 
   render() {
     const { budgetObject, toggleEditableRow, rowIndex, handleSubmit } = this.props;
+    console.log(this.props.budgetFormEditableErrors)
+    console.log("----")
     return (
       <tr>
         {this.populateEditableFieldArea()}

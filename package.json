@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-stage-1": "^6.1.18",
     "immutable": "^3.8.2",
     "lodash": "^3.10.1",

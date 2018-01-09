@@ -34,28 +34,29 @@ export default class Budget extends Component {
   render(){
     return (
       <div>
-      <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-        <h1>{metaProperties.pageTitle}</h1>
-        {budgetWidgets.map((widget, i) => {
-          return <BudgetWidgetCard title={widget} key={i} />
-        })}
-        <div className="card" style={{width: '65%', margin: 'auto', marginTop: '150px'}}>
-          <h3 className="card-header">{metaProperties.budgetCardTitle}</h3>
-          <div className="card-block" style={{padding: '20px'}}>
-            <AddBudgetForm addBudget={this.props.addBudget} />
+        <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+          <h1>{metaProperties.pageTitle}</h1>
+          {budgetWidgets.map((widget, i) => {
+            return <BudgetWidgetCard title={widget} key={i} />
+          })}
+          <div className="card" style={{width: '65%', margin: 'auto', marginTop: '150px'}}>
+            <h3 className="card-header">{metaProperties.budgetCardTitle}</h3>
+            <div className="card-block" style={{padding: '20px'}}>
+              <AddBudgetForm addBudget={this.props.addBudget} />
+            </div>
           </div>
-        </div>
-        <div>
-          <BudgetTable
-            userBudgetItems={this.props.userBudgetItems}
-            updateFieldEnableRequest={this.props.updateFieldEnableRequest}
-            budgetFormEditable={this.props.budgetFormEditable}
-            updateBudgetEntry={this.props.updateBudgetEntry}
-            reduxForm={this.props.reduxForm}
-          />
-        </div>
-
-      </main>
+          <div>
+            <BudgetTable
+              userBudgetItems={this.props.userBudgetItems}
+              updateFieldEnableRequest={this.props.updateFieldEnableRequest}
+              budgetFormEditable={this.props.budgetFormEditable}
+              addEditableFieldErrors={this.props.addEditableFieldErrors}
+              reduxForm={this.props.reduxForm}
+              budgetFormEditableErrors={this.props.budgetFormEditableErrors}
+              updateBudgetEntry={this.props.updateBudgetEntry}
+            />
+          </div>
+        </main>
       </div>
     )
   }
