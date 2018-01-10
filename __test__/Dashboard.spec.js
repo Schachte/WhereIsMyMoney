@@ -19,12 +19,12 @@ import Header from '../src/Dashboard/components/Dashboard';
 let sideBarLinkProp = [
         { title: "Dashboard", location: "/"},
         { title: "Budget", location: "/editBudget"},
-        { title: "Virtual Accounts", location: "/viewAccounts"}]
+        { title: "Virtual Accounts", location: "/viewAccounts"}
+      ]
 
 let headerLinkProp = [
-        { title: "Dashboard", location: "/"},
-        { title: "Budget", location: "/editBudget"},
-        { title: "Virtual Accounts", location: "/viewAccounts"}]
+        { title: "Settings", location: "/settings"}
+      ]
 
 const wrapper = mount(
   <Router>
@@ -52,19 +52,34 @@ describe('>>>D A S H B O A R D --- Child Components Exist',()=>{
 
 describe('>>>D A S H B O A R D --- Header Links',()=>{
   it('+++Properly renders header links into the page', () => {
-        expect(wrapper.find('Header').prop('links')).toEqual(headerLinkProp);
+      expect(wrapper.find('Header').prop('links')).toEqual(headerLinkProp);
    })
 });
 
 describe('>>>D A S H B O A R D --- Sidebar Links',()=>{
   it('+++Properly renders sidebar links into the page', () => {
-        expect(wrapper.find('Sidebar').prop('links')).toEqual(sideBarLinkProp);
+      expect(wrapper.find('Sidebar').prop('links')).toEqual(sideBarLinkProp);
    })
 });
 
 describe('>>>D A S H B O A R D --- Sidebar Links Display Correct Information',()=>{
   it('+++ Properly displays sidebar links into panel with Link', () => {
-        expect(wrapper.find('.sb').exists()).toEqual(true);
-        expect(wrapper.find('.sb').children()).toHaveLength(3)
+      expect(wrapper.find('.sb-link').exists()).toEqual(true);
+      expect(wrapper.find('.sb-link').children()).toHaveLength(3)
+
+      wrapper.find('.sb-link').forEach((node, index) => {
+        expect(node.text()).toEqual(sideBarLinkProp[index].title);
+      })
+   })
+});
+
+describe('>>>D A S H B O A R D --- Header Links Display Correct Information',()=>{
+  it('+++ Properly displays header links into panel with Link', () => {
+      expect(wrapper.find('.hdr-link').exists()).toEqual(true);
+      expect(wrapper.find('.hdr-link').children()).toHaveLength(1)
+
+      wrapper.find('.hdr-link').forEach((node, index) => {
+        expect(node.text()).toEqual(headerLinkProp[index].title);
+      })
    })
 });
