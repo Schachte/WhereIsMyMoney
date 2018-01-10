@@ -14,7 +14,7 @@ const budgetWidgets = [
   'Avg. Weekly Spent'
 ];
 
-const BudgetWidgetCard = (props) => {
+export const BudgetWidgetCard = (props) => {
   return (
     <div className="col-1 col-sm-3 placeholder" style={{float: 'left'}} key={`CARD_${props.i}`}>
       <div className="card card-inverse" style={{backgroundColor: "#333", borderColor: "#333", color: "#FFF", padding: "10px"}}>
@@ -39,9 +39,9 @@ export default class Budget extends Component {
     return (
       <div>
         <main className="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-          <h1>{metaProperties.pageTitle}</h1>
+          <h1 name='main-header-title'>{metaProperties.pageTitle}</h1>
           {budgetWidgets.map((widget, i) => {
-            return <BudgetWidgetCard title={widget} key={i} state={this.props} />
+            return <BudgetWidgetCard className='budget-widget' title={widget} key={i} state={this.props} />
           })}
           <div className="card" style={{width: '65%', margin: 'auto', marginTop: '150px'}}>
             <h3 className="card-header">{metaProperties.budgetCardTitle}</h3>

@@ -7,7 +7,6 @@ import {createStore} from 'redux'
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-
 configure({ adapter: new Adapter() });
 
 /**
