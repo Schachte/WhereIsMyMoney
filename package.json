@@ -6,7 +6,7 @@
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "test": "jest",
     "test:watch": "npm run test -- --watch"
   },
   "author": "",
@@ -19,19 +19,23 @@
     "chai": "^3.5.0",
     "chai-jquery": "^2.0.0",
     "css-loader": "^0.28.8",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
-    "react-addons-test-utils": "^0.14.7",
+    "react-addons-test-utils": "^15.6.2",
     "style-loader": "^0.19.1",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-jest": "^22.0.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-stage-1": "^6.1.18",
     "immutable": "^3.8.2",
+    "jest": "^22.0.5",
     "lodash": "^3.10.1",
     "moment": "^2.20.1",
     "react": "^16.2.0",
@@ -41,11 +45,14 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
+    "react-test-renderer": "^16.2.0",
     "redux": "^3.0.4",
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-form": "^7.2.0",
     "redux-immutable": "^4.0.0",
+    "redux-mock-store": "^1.4.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"
   }

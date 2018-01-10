@@ -3,19 +3,16 @@ import { connect } from 'react-redux';
 import { actionTestRequest } from '..';
 import  Budget from '../../Budget/components/Budget';
 import { Link, NavLink, BrowserRouter as Router, withRouter } from 'react-router-dom';
-
 import Immutable from 'immutable'
-const renderLinks = (props) => {
-}
 
-const Sidebar = withRouter((props) => {
+export const Sidebar = ((props) => {
   return (
     <div style={{float: 'left'}}>
       <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
         <ul className="nav nav-pills flex-column">
           {props.links.map((link, i) => {
             return (
-              <li key={`SIDEBAR_${i}`} className="nav-item">
+              <li key={`SIDEBAR_${i}`} className="nav-item sb-link">
                 <NavLink exact className='nav-link' activeClassName='nav-link active' to={`${link.location}`}>
                   {link.title}
                 </NavLink>
@@ -28,7 +25,7 @@ const Sidebar = withRouter((props) => {
   )
 })
 
-const Header = withRouter((props) => {
+export const Header =((props) => {
   return (
     <div>
       <header>
@@ -38,7 +35,7 @@ const Header = withRouter((props) => {
           <ul className="navbar-nav mr-auto">
               {props.links.map((link, i) => {
                 return (
-                  <li key={`HEADER_${i}`} className="nav-item">
+                  <li key={`HEADER_${i}`} className="nav-item hdr-link">
                     <NavLink exact className='nav-link' activeClassName='nav-link active' to={`${link.location}`}>
                       {link.title}
                     </NavLink>
@@ -58,9 +55,6 @@ export default class Dashboard extends Component {
     super(props);
     this.sideBarLinks = this.props.sideBarLinks;
     this.headerBarLinks = this.props.headerBarLinks;
-  }
-
-  componentWillMount() {
   }
 
   render() {
