@@ -12,7 +12,7 @@ export const Sidebar = ((props) => {
         <ul className="nav nav-pills flex-column">
           {props.links.map((link, i) => {
             return (
-              <li key={`SIDEBAR_${i}`} className="nav-item">
+              <li key={`SIDEBAR_${i}`} className="nav-item sb">
                 <NavLink exact className='nav-link' activeClassName='nav-link active' to={`${link.location}`}>
                   {link.title}
                 </NavLink>
@@ -35,7 +35,7 @@ export const Header =((props) => {
           <ul className="navbar-nav mr-auto">
               {props.links.map((link, i) => {
                 return (
-                  <li key={`HEADER_${i}`} className="nav-item">
+                  <li key={`HEADER_${i}`} className="nav-item hdr">
                     <NavLink exact className='nav-link' activeClassName='nav-link active' to={`${link.location}`}>
                       {link.title}
                     </NavLink>
