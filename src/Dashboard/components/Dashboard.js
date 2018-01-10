@@ -3,12 +3,9 @@ import { connect } from 'react-redux';
 import { actionTestRequest } from '..';
 import  Budget from '../../Budget/components/Budget';
 import { Link, NavLink, BrowserRouter as Router, withRouter } from 'react-router-dom';
-
 import Immutable from 'immutable'
-const renderLinks = (props) => {
-}
 
-const Sidebar = withRouter((props) => {
+export const Sidebar = ((props) => {
   return (
     <div style={{float: 'left'}}>
       <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
@@ -28,7 +25,7 @@ const Sidebar = withRouter((props) => {
   )
 })
 
-const Header = withRouter((props) => {
+export const Header =((props) => {
   return (
     <div>
       <header>
@@ -58,9 +55,6 @@ export default class Dashboard extends Component {
     super(props);
     this.sideBarLinks = this.props.sideBarLinks;
     this.headerBarLinks = this.props.headerBarLinks;
-  }
-
-  componentWillMount() {
   }
 
   render() {
