@@ -6,7 +6,7 @@ import moment from 'moment';
 /**************
 INITIAL STATE
 ***************/
-const INITIAL_STATE = Immutable.fromJS({
+export const INITIAL_STATE = Immutable.fromJS({
   budgetCategories: [
     {budgetName: 'budgetName', monthlyCost: '192', rollOverEnabled: "rollOverDisabled", dueDate: '02'}
   ],

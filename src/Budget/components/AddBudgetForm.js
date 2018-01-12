@@ -3,7 +3,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form/immutable';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-class AddBudgetForm extends Component {
+export class AddBudgetForm extends Component {
 
   constructor (props) {
     super(props)
