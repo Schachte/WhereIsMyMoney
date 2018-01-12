@@ -1,9 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme';
 import renderer from 'react-test-renderer'
-// import configureStore from 'redux-mock-store'
 import {Provider} from 'react-redux'
-import {createStore} from 'redux'
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -11,19 +9,25 @@ configure({ adapter: new Adapter() });
 import rootReducer from '../src/configuration/reducers';
 import {
   INITIAL_STATE,
-  addBudget
+  addBudget,
+  updateBudgetEntry
  } from '../src/Budget/index';
 import Immutable from 'immutable'
-
+import testHelper from './test_helper';
+// import configureStore from 'redux-mock-store'
+import { configureStore } from '../src/configuration/store';
+import BudgetReducer from '../src/Budget';
+import {createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
 
 /*****************
 BUDGET COMPONENTS
 ******************/
-
 import Budget from '../src/Budget/components/Budget';
 import { BudgetWidgetCard } from '../src/Budget/components/Budget';
 
 let mainHeaderTitle = 'Review Current Budget';
+let store;
 const wrapper = shallow(<Budget />);
 
 // Snapshot for Budget React Component
@@ -47,30 +51,48 @@ describe('>>>B U D G E T --- Elements Getting Rendered Correctly',()=>{
 /***********************
 TESTING THE REDUX STORE
 ***********************/
-
 describe('>>>Redux Store for Budget Functionality', () => {
+  // beforeEach(() => {
+  //   store = createStore(BudgetReducer, Immutable.fromJS({}), applyMiddleware(thunk));
+  // })
+
   it('Should successfully add a new budget into the store', () => {
-    const store = createStore(rootReducer, Immutable.fromJS({}));
+    let newBudgetCategory = testHelper.testBudgetCategory;
 
-    const budgetCategory = {
-      budgetName: 'budgetName',
-      monthlyCost: '192',
-      rollOverEnabled: "rollOverDisabled",
-      dueDate: '02'
-    }
+    let initial_state = Immutable.fromJS({
+      budgetCategories: [],
+    });
 
-    //Will auto dispatch since we are using redux-actions
-    const action = addBudget(budgetCategory);
-    const actual = store.getState().getIn(['budget', 'budgetCategories']).toJS()
-    const expected = [
-      {
-        budgetName: 'budgetName',
-        monthlyCost: '192',
-        rollOverEnabled: 'rollOverDisabled',
-        dueDate: '02'
-      }
-    ];
+    let action = addBudget(newBudgetCategory);
+    let budgetReducer = BudgetReducer(initial_state, action);
 
+    const actual = budgetReducer.getIn(['budgetCategories']).toJS()
+    const expected = [testHelper.testBudgetCategory];
     expect(actual).toEqual(expected);
+  })
+
+  it('Should successfully add a new budget then alter a budget within the Redux store', () => {
+    // let budgetCategory = testHelper.testBudgetCategory;
+    // let editedStateIndex = 1;
+    //
+    // //Add budget to the redux store
+    // let action = addBudgetCategoryRequest(budgetCategory);
+    // let actual = store.getState().getIn(['budget', 'budgetCategories']).toJS()
+    // let expected = [testHelper.testBudgetCategory];
+    //
+    // expect(actual).toEqual(expected);
+
+    //Update that newly added budget to an altered budget
+    // action = updateBudgetEntry(editedStateIndex, testHelper.testBudgetCategoryAlteration);
+    // addBudgetCategoryRequest(testHelper.testBudgetCategoryAlteration);
+
+    // action = addBudget(testHelper.testBudgetCategoryAlteration).then(() => {
+    //   console.log("Added successfully!");
+    //     let newActual = store.getState().getIn(['budget']).toJS()
+    //     console.log("The current value in the store is ");
+    //     console.log(newActual);
+    // });
+
+
   })
 })
