@@ -8,8 +8,8 @@ export function addBudget(budget) {
 }
 
 export function loadBudgetsSuccess(courses) {
-  return { type:
-    types.LOAD_COURSES_SUCCESS,
+  return {
+    type: types.LOAD_COURSES_SUCCESS,
     payload: courses
   };
 }
