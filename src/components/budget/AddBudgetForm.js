@@ -1,3 +1,4 @@
+//eslint-disable react/jsx-no-bind
 import React, { Component, PropTypes } from 'react';
 import Alert from '../common/Alert';
 import TextInput from '../common/TextInput';

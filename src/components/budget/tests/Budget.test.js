@@ -55,15 +55,17 @@ describe("Submission of the form", () => {
   it("Propogates error into the state upon submission when empty fields are present", () => {
       let budgetObject = { budgetCategory: '', budgetCost: '', budgetDate: ''};
       let wrapper = setupMount(budgetObject);
-      let errors = {
+      let expectedErrors = {
                       budgetCategory: 'Do Not Leave Field Blank',
                       budgetCost: 'Do Not Leave Field Blank',
                       budgetDate: 'Do Not Leave Field Blank'
                     };
+
       let formSubmissionBtn = wrapper.find('[name="submit-budget-form"]');
       expect((formSubmissionBtn.length)).toBe(1);
       expect(formSubmissionBtn.prop('type')).toBe('submit');
       formSubmissionBtn.simulate('click');
-      expect(wrapper.state().errors).toEqual(errors);
+
+      expect(wrapper.state().errors).toEqual(expectedErrors);
   });
 });
