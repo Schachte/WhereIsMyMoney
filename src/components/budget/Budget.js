@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FullWidthCard from '../common/FullWidthCard';
 import AddBudgetForm from './AddBudgetForm';
-import validateForm from './validation/AddBudgetFormValidation';
+import { validateForm,  checkIfFormIsValid } from './validation/AddBudgetFormValidation';
 
 class Budget extends Component {
   constructor(props) {
@@ -26,7 +26,10 @@ class Budget extends Component {
 
   onBeforeSave(e, formData) {
     e.preventDefault();
-    this.setState({errors: {"error": "error"}});
+    let formValidator = checkIfFormIsValid(formData, this.state);
+    if (formValidator.valid == false) {
+      this.setState({errors: formValidator.errors});
+    }
   }
 
   render() {

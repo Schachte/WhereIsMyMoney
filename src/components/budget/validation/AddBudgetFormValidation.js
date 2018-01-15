@@ -1,6 +1,6 @@
 import React from 'react';
 
-const validateForm = (fieldName, userInput, state) => {
+export const validateForm = (fieldName, userInput, state) => {
   let errors = Object.assign({}, state.errors);
 
   Object.keys(state.budget).map(key => {
@@ -26,4 +26,20 @@ const validateForm = (fieldName, userInput, state) => {
   return errors;
 };
 
-export default validateForm;
+export const checkIfFormIsValid = (formInput, state) => {
+
+  let errors = Object.assign({}, state.errors);
+
+  Object.keys(formInput).map(inputKey => {
+    if (formInput[inputKey] == '' || formInput[inputKey] == undefined) {
+      errors[inputKey] = 'Do Not Leave Field Blank';
+    }
+  });
+  return {valid: checkIfJSONContainsErrors(errors), errors: errors};
+};
+
+export function checkIfJSONContainsErrors(errorObj) {
+  return Object.keys(errorObj).every(function(x) {
+    return errorObj[x] === '' || errorObj[x] === null;
+  });
+}

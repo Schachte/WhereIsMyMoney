@@ -13,9 +13,9 @@ const setup = () => {
   return shallow(<Budget {...props} />);
 };
 
-const setupMount = () => {
+const setupMount = (budgetObject = { budgetCategory: 'budget category', budgetCost: 5, budgetDate: 3}) => {
   let props = {
-    budgetObject: { budgetCategory: 'budget category', budgetCost: 5, budgetDate: 3},
+    budgetObject: budgetObject,
     budgets: [],
     actions: {addBudget: () => {}}
   };
@@ -52,12 +52,18 @@ describe("Rendered children components contain the right props", () => {
 });
 
 describe("Submission of the form", () => {
-  it("Propogates error into the state upon submission", () => {
-      let wrapper = setupMount();
+  it("Propogates error into the state upon submission when empty fields are present", () => {
+      let budgetObject = { budgetCategory: '', budgetCost: '', budgetDate: ''};
+      let wrapper = setupMount(budgetObject);
+      let errors = {
+                      budgetCategory: 'Do Not Leave Field Blank',
+                      budgetCost: 'Do Not Leave Field Blank',
+                      budgetDate: 'Do Not Leave Field Blank'
+                    };
       let formSubmissionBtn = wrapper.find('[name="submit-budget-form"]');
       expect((formSubmissionBtn.length)).toBe(1);
       expect(formSubmissionBtn.prop('type')).toBe('submit');
       formSubmissionBtn.simulate('click');
-      //TODO: Ensure that the state is tested after submission of the form
+      expect(wrapper.state().errors).toEqual(errors);
   });
 });
