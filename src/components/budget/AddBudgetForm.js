@@ -48,7 +48,7 @@ const AddBudgetForm = ({budget, onChange, onSave, errors}) => {
         className="form-control"
         placeholder="Enter Name of Budget Category"
         onChange={onChange}
-        value={budget.category}
+        value={budget.budgetCategory}
         name="budgetCategory"
       />
     {errors.budgetCategory != "" && generateValidationError(errors.budgetCategory, 'budgetCategory')}
@@ -59,7 +59,7 @@ const AddBudgetForm = ({budget, onChange, onSave, errors}) => {
           className="form-control"
           placeholder="Monthly Budget Cost"
           onChange={onChange}
-          value={budget.cost}
+          value={budget.budgetCost}
           name="budgetCost"
         />
       </div>
@@ -68,7 +68,7 @@ const AddBudgetForm = ({budget, onChange, onSave, errors}) => {
       <select
         className="form-control"
         onChange={onChange}
-        value={budget.date}
+        value={budget.budgetDate}
         name="budgetDate"
       >
         <option>Select Day of Month Budget Item is Due</option>
@@ -78,10 +78,10 @@ const AddBudgetForm = ({budget, onChange, onSave, errors}) => {
 
       <br/>
       {(!errorsInForm(errors)) &&
-        <button className="btn btn-primary" type="submit" onClick={() => onSave(budget)}>Add Budget</button>
+        <button name="submit-budget-form" className="btn btn-primary" type="submit" onClick={(e) => onSave(e, budget)}>Add Budget</button>
       }
       {(errorsInForm(errors)) &&
-        <button className="btn btn-primary" type="submit" disabled>Fix Form Errors</button>
+        <button name="submit-budget-form-disabled" className="btn btn-primary" type="submit" disabled>Fix Form Errors</button>
       }
       </form>
     </div>

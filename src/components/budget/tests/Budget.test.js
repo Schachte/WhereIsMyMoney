@@ -13,6 +13,15 @@ const setup = () => {
   return shallow(<Budget {...props} />);
 };
 
+const setupMount = () => {
+  let props = {
+    budgetObject: { budgetCategory: 'budget category', budgetCost: 5, budgetDate: 3},
+    budgets: [],
+    actions: {addBudget: () => {}}
+  };
+  return mount(<Budget {...props} />);
+};
+
 describe("Rendering Budget component renders proper components", () => {
   let wrapper = setup();
   it("Doesn't explode upon rendering", () => {
@@ -39,5 +48,16 @@ describe("Rendered children components contain the right props", () => {
     expect(wrapper.find('[name="budget-form-card"]').props().iconName).toEqual('fa fa-credit-card');
     expect(wrapper.find('[name="budget-form-card"]').props().title.trim()).toEqual('Add New Budget Category');
     expect(wrapper.find('[name="budget-form-card"]').props().nestedComponent.type).toEqual(AddBudgetForm);
+  });
+});
+
+describe("Submission of the form", () => {
+  it("Propogates error into the state upon submission", () => {
+      let wrapper = setupMount();
+      let formSubmissionBtn = wrapper.find('[name="submit-budget-form"]');
+      expect((formSubmissionBtn.length)).toBe(1);
+      expect(formSubmissionBtn.prop('type')).toBe('submit');
+      formSubmissionBtn.simulate('click');
+      //TODO: Ensure that the state is tested after submission of the form
   });
 });
