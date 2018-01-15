@@ -4,8 +4,8 @@ node_js:
 before_install:
         "nvm install-latest-npm"
 install:
-        "npm install"
+        "npm install --prefix src_client"
 script:
-        - 'npm run test'
+        - 'npm test --prefix src_client'
 env:
         - REACT=16
