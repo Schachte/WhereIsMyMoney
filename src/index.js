@@ -1,28 +1,24 @@
+/* eslint-disable no-console */
+import 'babel-polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import { configureStore } from './configuration/store';
-import { Router, Route } from 'react-router';
-import App from './app';
+import routes from './routes';
+import configureStore from './store/configureStore';
+import {loadBudgets} from './actions/budgetActions';
+import './styles/styles.css';
+import './styles/vendor/bootstrap/css/bootstrap.min.css';
+import './styles/vendor/font-awesome/css/font-awesome.min.css';
+import './styles/vendor/datatables/dataTables.bootstrap4.css';
+import './styles/sb-admin.css';
 
 const store = configureStore();
-const rootElement = document.getElementById('root');
+store.dispatch(loadBudgets());
 
-ReactDOM.render(
+render(
   <Provider store={store}>
-    <App />
+    <Router history={browserHistory} routes={routes} />
   </Provider>,
-  rootElement
+  document.getElementById('app')
 );
-
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default;
-    ReactDOM.render(
-      <Provider store={store}>
-        <NextApp />
-      </Provider>
-      , rootElement);
-  });
-}
