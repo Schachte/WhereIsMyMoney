@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { mount, shallow } from 'enzyme';
-import validateForm from '../validation/AddBudgetFormValidation';
+import { validateForm } from '../validation/AddBudgetFormValidation';
 
 const validateFormInput = (fieldName=null, userInput=null, state={}) => {
   return validateForm(fieldName, userInput, state);

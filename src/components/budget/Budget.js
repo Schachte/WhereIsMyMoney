@@ -2,16 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FullWidthCard from '../common/FullWidthCard';
 import AddBudgetForm from './AddBudgetForm';
-import validateForm from './validation/AddBudgetFormValidation';
+import { validateForm,  checkIfFormIsValid } from './validation/AddBudgetFormValidation';
 
 class Budget extends Component {
   constructor(props) {
     super(props);
     this.state = {
       budget: Object.assign({}, props.budgetObject),
-      errors: Object.assign({}, props.budgetObject)
+      errors:  {budgetCategory: '', budgetCost: '', budgetDate: ''}
     };
     this.updateBudgetFormAndAddressErrors = this.updateBudgetFormAndAddressErrors.bind(this);
+    this.onBeforeSave = this.onBeforeSave.bind(this);
   }
 
   updateBudgetFormAndAddressErrors(event) {
@@ -21,6 +22,14 @@ class Budget extends Component {
     budget[fieldName] = userInput;
     this.setState({budget: budget});
     this.setState({errors: validateForm(fieldName, userInput, this.state)});
+  }
+
+  onBeforeSave(e, formData) {
+    e.preventDefault();
+    let formValidator = checkIfFormIsValid(formData, this.state);
+    if (formValidator.valid == false) {
+      this.setState({errors: formValidator.errors});
+    }
   }
 
   render() {
@@ -34,7 +43,7 @@ class Budget extends Component {
             <AddBudgetForm
               budget={this.state.budget}
               onChange={this.updateBudgetFormAndAddressErrors}
-              onSave={this.props.actions.addBudget}
+              onSave={this.onBeforeSave}
               errors={this.state.errors}
             />
           }
