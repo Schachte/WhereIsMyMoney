@@ -1,2 +1,3 @@
 export const ADD_BUDGET = 'ADD_BUDGET';
 export const LOAD_COURSES_SUCCESS = 'LOAD_COURSES_SUCCESS';
+export const ADD_BUDGET_EDIT = 'ADD_BUDGET_EDIT';

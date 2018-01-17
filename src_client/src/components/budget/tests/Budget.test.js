@@ -13,14 +13,26 @@ const setup = () => {
   return shallow(<Budget {...props} />);
 };
 
-const setupMount = (budgetObject = { budgetCategory: 'budget category', budgetCost: 5, budgetDate: 3}) => {
+const setupMount = (budgetObject = { budgetCategory: 'budget category', budgetCost: 5, budgetDate: 3}, budgets=[]) => {
   let props = {
     budgetObject: budgetObject,
-    budgets: [],
+    budgets: budgets,
     actions: {addBudget: () => {}}
   };
   return mount(<Budget {...props} />);
 };
+
+let expectedBudget_1 = {
+   budgetCategory: 'TEST_CATEGORY',
+   budgetCost: '5.00',
+   budgetDate: '25'
+ };
+
+let expectedBudget_2 = {
+   budgetCategory: 'TEST_CATEGORY_2',
+   budgetCost: '6.00',
+   budgetDate: '30'
+ };
 
 describe("Rendering Budget component renders proper components", () => {
   let wrapper = setup();
@@ -29,16 +41,17 @@ describe("Rendering Budget component renders proper components", () => {
   });
 
   it("Renders the Add Form Wrapper Div", () => {
-    expect(wrapper.find('.budget-form-component').children().length).toBe(1);
+    expect(wrapper.find('.budget-form-component').children().length).toBe(2);
   });
 
   it("Renders the Add Form Widget Card", () => {
     expect(wrapper.find('[name="budget-form-card"]').length).toBe(1);
   });
 
-  it("Renders the AddBudgetForm", () => {
-    expect(wrapper.find('.budget-form-component').children().props().nestedComponent.type).toEqual(AddBudgetForm);
+  it("Renders the Add Form Table Card", () => {
+    expect(wrapper.find('[name="budget-form-table"]').length).toBe(1);
   });
+
 });
 
 describe("Rendered children components contain the right props", () => {
@@ -67,5 +80,14 @@ describe("Submission of the form", () => {
       formSubmissionBtn.simulate('click');
 
       expect(wrapper.state().errors).toEqual(expectedErrors);
+  });
+});
+
+describe("Budget data from redux store renders into form on budget edit page", () => {
+  let simulatedBudgets = [ expectedBudget_1, expectedBudget_2 ];
+  let wrapper = setupMount(null, simulatedBudgets);
+
+  it("Renders a valid bootstrap table", () => {
+    expect(wrapper.find('.add-budget-table').length).toBe(1);
   });
 });

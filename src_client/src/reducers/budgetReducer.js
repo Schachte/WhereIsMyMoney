@@ -1,17 +1,17 @@
+import Immutable from 'immutable';
 import * as types from '../actions/actionTypes';
 
-let INIT_STATE = [];
+let initialState = Immutable.fromJS({
+  budgetItems: [],
+  editingBudget: []
+});
 
-export default function budgetReducer(state = INIT_STATE, action) {
+export default function budgetReducer(state = initialState, action) {
   switch(action.type) {
 
-    case types.LOAD_COURSES_SUCCESS:
-      return [...state,
-        Object.assign({}, action.payload)];
-
     case types.ADD_BUDGET:
-      return [...state,
-        Object.assign({}, action.payload)];
+      return state.updateIn(['budgetItems'],
+            arr => arr.push(Immutable.fromJS(action.payload)));
 
     default:
       return state;
