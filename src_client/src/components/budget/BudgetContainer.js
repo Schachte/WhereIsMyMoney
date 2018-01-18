@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
   let initBudget = {budgetCategory: '', budgetCost: '', budgetDate: ''};
   return {
     budgetObject: initBudget,
-    budgets: state.budgets
+    budgets: state.getIn(['budgetItems']).toJS()
   };
 };
 

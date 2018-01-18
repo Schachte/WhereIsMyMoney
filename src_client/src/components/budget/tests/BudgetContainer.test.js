@@ -32,7 +32,7 @@ describe("Adding budgets to the redux store", () => {
     tempStore.dispatch(addBudgetAction);
 
     // Grab the matching piece of the redux store
-    let actualStoreBudget = tempStore.getState().budgets[0];
+    let actualStoreBudget = tempStore.getState().toJS().budgets.budgetItems[0];
     expect(expectedBudget_1).toEqual(actualStoreBudget);
   });
 
@@ -43,8 +43,8 @@ describe("Adding budgets to the redux store", () => {
     tempStore.dispatch(addBudgetAction);
 
     // Grab the matching piece of the redux store
-    let actualStoreBudget_1 = tempStore.getState().budgets[0];
-    let actualStoreBudget_2 = tempStore.getState().budgets[1];
+    let actualStoreBudget_1 = tempStore.getState().toJS().budgets.budgetItems[0];
+    let actualStoreBudget_2 = tempStore.getState().toJS().budgets.budgetItems[1];
 
     expect(expectedBudget_1).toEqual(actualStoreBudget_1);
     expect(expectedBudget_2).toEqual(actualStoreBudget_2);
