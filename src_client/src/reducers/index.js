@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux-immutable';
 import budgetReducer from './budgetReducer';
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers( {
     budgets: budgetReducer
 });
 
