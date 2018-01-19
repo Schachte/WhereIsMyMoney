@@ -21,7 +21,7 @@ export default function budgetReducer(state = initialState, action) {
 
     case types.UPDATE_EXISTING_BUDGET:
       return state.setIn(['budgetItems', getIdxOfBudget(state, action)],
-                          Immutable.fromJS(action.payload));
+                          Immutable.fromJS(action.payload[1]));
     default:
       return state;
   }
@@ -30,6 +30,6 @@ export default function budgetReducer(state = initialState, action) {
 // Find the exact index of a budget within the state budget items list
 const getIdxOfBudget = (state, action) => {
   return state.getIn(['budgetItems']).findIndex(function(item) {
-    return (item.get("budgetCategory") === action.payload.budgetCategory);
+    return (item.get("budgetCategory") === action.payload[0].budgetCategory);
   });
 };

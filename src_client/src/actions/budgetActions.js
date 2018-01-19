@@ -20,10 +20,10 @@ export function clearEditedBudget() {
   };
 }
 
-export function updateExistingBudget(budget) {
+export function updateExistingBudget(oldBudget, newBudget) {
   return {
     type: types.UPDATE_EXISTING_BUDGET,
-    payload: budget
+    payload: [oldBudget, newBudget]
   };
 }
 

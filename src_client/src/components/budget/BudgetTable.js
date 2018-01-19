@@ -19,7 +19,7 @@ let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, u
   return budgets.map((budget, key) => {
     if (editingBudget != null &&
       budget.budgetCategory == editingBudget.budgetCategory) {
-    editedBudget = editingBudget;
+      editedBudget = editingBudget;
       return (
         <tr className = "edit-budget-table-row" key={"budget_item_" + key}>
           <td>
@@ -63,7 +63,7 @@ let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, u
             <button
               style={{"marginRight" : "5px"}}
               name="budget-save-changes"
-              onClick={() => {updateExistingBudget(editedBudget); clearEditedBudget();}}
+              onClick={() => {updateExistingBudget(editedBudget, budget); clearEditedBudget();}}
               className="btn btn-success">Save Budget
             </button>
             <button

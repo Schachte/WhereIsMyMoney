@@ -28,7 +28,7 @@ let expectedBudget_2 = {
 /*****************************************
 FULL JSDOM COMPONENT RENDER
 *****************************************/
-const setup = (budgets = [], editingBudget = []) => {
+const setup = (budgets = [], editingBudget = {}) => {
   let props = {
    budgets: budgets,
    editBudget: (budget) => {},

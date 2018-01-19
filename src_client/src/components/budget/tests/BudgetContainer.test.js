@@ -54,8 +54,8 @@ const setupMount = (
         let addBudgetEdit = budgetActions.addBudgetEdit(budgetObject);
         tempStore.dispatch(addBudgetEdit);
       },
-      updateExistingBudget: (budgetObject) => {
-        let updateBudget = budgetActions.updateExistingBudget(budgetObject);
+      updateExistingBudget: (oldBudget, newBudget) => {
+        let updateBudget = budgetActions.updateExistingBudget(oldBudget, newBudget);
         tempStore.dispatch(updateBudget);
       },
       clearEditedBudget: () => {
@@ -161,6 +161,13 @@ describe("Clicking the 'Edit Budget' button on the budget page", () => {
   });
 
   it("Changes the original redux value in budgets to newly edited value from form edit", () => {
+
+    let expectedBudget = {
+      budgetCategory: 'new',
+      budgetCost: '100',
+      budgetDate: '10'
+    };
+
     tempStore = configureStore();
     wrapper = setupMount(tempStore, expectedBudget_3, [expectedBudget_3], expectedBudget_3);
 
@@ -168,27 +175,23 @@ describe("Clicking the 'Edit Budget' button on the budget page", () => {
     let addBudgetAction = budgetActions.addBudget(expectedBudget_3);
     tempStore.dispatch(addBudgetAction);
 
-    // Grab the matching piece of the redux store
-    let actualStoreBudget = tempStore.getState().toJS().budgets.budgetItems[0];
-    expect(expectedBudget_3).toEqual(actualStoreBudget);
+    let addBudgetEdit = budgetActions.addBudgetEdit(expectedBudget_3);
+    tempStore.dispatch(addBudgetEdit);
 
-    let expectedEditedBudget = {
-      budgetCategory: 'Category Change',
-      budgetCost: '56',
-      budgetDate: '22'
-    };
+    expect(wrapper.find('[name="budgetCategoryEdit"]').length).toEqual(1);
+    wrapper.find('[name="budgetCategoryEdit"]').simulate('change', {target: {value: expectedBudget.budgetCategory}});
 
-    expect(wrapper.find("[name='budget-save-changes']").length).toBe(1);
+    expect(wrapper.find('[name="budgetCostEdit"]').length).toEqual(1);
+    wrapper.find('[name="budgetCostEdit"]').simulate('change', {target: {value: expectedBudget.budgetCost}});
 
-    // Programatically change the edited form values
-    onChangeEdit('budgetCategory', expectedEditedBudget.budgetCategory);
-    onChangeEdit('budgetCost', expectedEditedBudget.budgetCost);
-    onChangeEdit('budgetDate', expectedEditedBudget.budgetDate);
+    expect(wrapper.find('[name="budgetDateEdit"]').length).toEqual(1);
+    wrapper.find('[name="budgetDateEdit"]').simulate('change', {target: {value: expectedBudget.budgetDate}});
 
     let saveChangesBtn = wrapper.find('[name="budget-save-changes"]');
-    expect(saveChangesBtn.length).toEqual(1);
-
     saveChangesBtn.simulate('click');
-    expect(tempStore.getState().toJS().budgets.budgetItems[0]).toEqual(expectedEditedBudget);
+
+    // Grab the matching piece of the redux store
+    let actualStoreBudget = tempStore.getState().toJS().budgets.budgetItems[0];
+    expect(expectedBudget).toEqual(actualStoreBudget);
   });
 });
