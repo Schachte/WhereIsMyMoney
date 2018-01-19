@@ -14,6 +14,9 @@ const setup = (errors={}, budget={}) => {
   return shallow(<AddBudgetForm {...props} />);
 };
 
+/*****************************************
+TESTS
+*****************************************/
 describe("Add Budget Form Gets Rendered Properly", () => {
   let wrapper = setup();
   it("Renders the form without the form exploding", () => {

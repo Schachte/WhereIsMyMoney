@@ -7,6 +7,26 @@ export function addBudget(budget) {
   };
 }
 
+export function addBudgetEdit(budget) {
+  return {
+    type: types.ADD_BUDGET_EDIT,
+    payload: budget
+  };
+}
+
+export function clearEditedBudget() {
+  return {
+    type: types.ADD_BUDGET_EDIT
+  };
+}
+
+export function updateExistingBudget(budget) {
+  return {
+    type: types.UPDATE_EXISTING_BUDGET,
+    payload: budget
+  };
+}
+
 export function loadBudgetsSuccess(courses) {
   return {
     type: types.LOAD_COURSES_SUCCESS,

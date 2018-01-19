@@ -7,6 +7,9 @@ const validateFormInput = (fieldName=null, userInput=null, state={}) => {
   return validateForm(fieldName, userInput, state);
 };
 
+/*****************************************
+TESTS
+*****************************************/
 describe("Errors propogate based on different input conditions", () => {
   let errorMessages = {
     emptyBudgetCategory: 'Do Not Leave Budget Category Empty',

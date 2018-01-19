@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import FullWidthCard from '../common/FullWidthCard';
 import AddBudgetForm from './AddBudgetForm';
+import RenderBudgetTable from './BudgetTable';
+import Immutable from 'immutable';
+
 import { validateForm,  checkIfFormIsValid } from './validation/AddBudgetFormValidation';
 
 class Budget extends Component {
@@ -9,9 +12,10 @@ class Budget extends Component {
     super(props);
     this.state = {
       budget: Object.assign({}, props.budgetObject),
-      errors:  {budgetCategory: '', budgetCost: '', budgetDate: ''}
+      errors: {budgetCategory: '', budgetCost: '', budgetDate: ''}
     };
     this.updateBudgetFormAndAddressErrors = this.updateBudgetFormAndAddressErrors.bind(this);
+    this.editBudget = this.editBudget.bind(this);
     this.onBeforeSave = this.onBeforeSave.bind(this);
   }
 
@@ -29,7 +33,14 @@ class Budget extends Component {
     let formValidator = checkIfFormIsValid(formData, this.state);
     if (formValidator.valid == false) {
       this.setState({errors: formValidator.errors});
+    } else {
+      this.props.actions.addBudget(formData);
+      this.setState({"budget": Object.assign({}, this.props.budgetObject)});
     }
+  }
+
+  editBudget(budgetObject) {
+    this.props.actions.addBudgetEdit(budgetObject);
   }
 
   render() {
@@ -48,6 +59,21 @@ class Budget extends Component {
             />
           }
         />
+
+        <FullWidthCard
+          name = "budget-form-table"
+          title = "View Currently Saved Budgets"
+          iconName = "fa fa-area-chart"
+          nestedComponent = {
+            <RenderBudgetTable
+              budgets={this.props.budgets}
+              editBudget={this.editBudget}
+              editingBudget={this.props.editingBudget}
+              clearEditedBudget={this.props.actions.clearEditedBudget}
+              updateExistingBudget={this.props.actions.updateExistingBudget}
+            />
+          }
+        />
       </div>
     );
   }
@@ -56,7 +82,10 @@ class Budget extends Component {
 Budget.propTypes = {
   actions: PropTypes.object,
   budgetObject: PropTypes.object,
-  addBudget: PropTypes.func
+  addBudget: PropTypes.func,
+  budgets: PropTypes.array,
+  editingBudget: PropTypes.object,
+  clearEditedBudget: PropTypes.func
 };
 
 export default Budget;

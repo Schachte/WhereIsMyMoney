@@ -1,9 +1,10 @@
-//eslint-disable react/jsx-no-bind
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/no-multi-comp */
 import React, { Component, PropTypes } from 'react';
 import Alert from '../common/Alert';
 import TextInput from '../common/TextInput';
 
-const renderDays = () => {
+export const renderDays = () => {
   return Array(31).fill().map((_, i = 1) => <option key={i+1}>{i+1}</option>);
 };
 
@@ -12,7 +13,6 @@ const errorsInForm = errors => {
   Object.keys(errors).map(item => {
     if (errors[item]) { error = true; }
   });
-
   return error;
 };
 
