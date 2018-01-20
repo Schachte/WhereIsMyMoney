@@ -21,6 +21,8 @@ export function clearEditedBudget() {
 }
 
 export function updateExistingBudget(oldBudget, newBudget) {
+  console.log(`Data is ${JSON.stringify(oldBudget)}`)
+  console.log(`Data is ${JSON.stringify(newBudget)}`)
   return {
     type: types.UPDATE_EXISTING_BUDGET,
     payload: [oldBudget, newBudget]
