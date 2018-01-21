@@ -43,6 +43,10 @@ class Budget extends Component {
     this.props.actions.addBudgetEdit(budgetObject);
   }
 
+  removeBudget(budgetObject) {
+    this.props.actions.removeBudget(budgetObject);
+  }
+
   render() {
     return (
       <div className="budget-form-component">
@@ -71,6 +75,7 @@ class Budget extends Component {
               editingBudget={this.props.editingBudget}
               clearEditedBudget={this.props.actions.clearEditedBudget}
               updateExistingBudget={this.props.actions.updateExistingBudget}
+              removeBudget={this.removeBudget}
             />
           }
         />

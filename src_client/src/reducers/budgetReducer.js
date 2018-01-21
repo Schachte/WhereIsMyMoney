@@ -22,6 +22,11 @@ export default function budgetReducer(state = initialState, action) {
     case types.UPDATE_EXISTING_BUDGET:
       return state.setIn(['budgetItems', getIdxOfBudget(state, action)],
                           Immutable.fromJS(action.payload[1]));
+
+    case types.REMOVE_BUDGET:
+      return state.updateIn(['budgetItems'],
+            Immutable.fromJS(action.payload));
+
     default:
       return state;
   }
