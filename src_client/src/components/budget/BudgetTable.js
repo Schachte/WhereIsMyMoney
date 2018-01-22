@@ -15,7 +15,7 @@ export const onChangeEdit = (field, data) => {
 
 //TODO: REFACTOR THIS DUPLICATED SHIT CODE BELOW
 let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, updateExistingBudget, removeBudgetFn) => {
-
+  console.log(budgets);
   return budgets.map((budget, key) => {
     if (editingBudget != null &&
       budget.budgetCategory == editingBudget.budgetCategory) {

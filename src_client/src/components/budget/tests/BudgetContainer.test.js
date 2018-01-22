@@ -61,6 +61,10 @@ const setupMount = (
       clearEditedBudget: () => {
         let clearBudget = budgetActions.clearEditedBudget();
         tempStore.dispatch(clearBudget);
+      },
+      removeBudget: (formData) => {
+        let removeBudgetAction = budgetActions.removeBudget(formData);
+        tempStore.dispatch(removeBudgetAction);
       }
     }
   };
@@ -193,5 +197,16 @@ describe("Clicking the 'Edit Budget' button on the budget page", () => {
     // Grab the matching piece of the redux store
     let actualStoreBudget = tempStore.getState().toJS().budgets.budgetItems[0];
     expect(expectedBudget).toEqual(actualStoreBudget);
+  });
+});
+
+describe("Deleting budgets", () => {
+  it("Ensures a budget can be deleted", () => {
+    let tempStore = configureStore();
+    let wrapper = setupMount(tempStore, expectedBudget_3, [expectedBudget_3], []);
+    let rowLength = wrapper.find('.add-budget-table-row').length;
+    let firstDeleteBudgetBtn = wrapper.find('[name="budget-remove-btn"]').first();
+    firstDeleteBudgetBtn.simulate('click');
+    expect(wrapper.find('.add-budget-table-row').length).toEqual(rowLength - 1);
   });
 });
