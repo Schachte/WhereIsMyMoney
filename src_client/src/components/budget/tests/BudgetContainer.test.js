@@ -201,12 +201,22 @@ describe("Clicking the 'Edit Budget' button on the budget page", () => {
 });
 
 describe("Deleting budgets", () => {
-  it("Ensures a budget can be deleted", () => {
+  it("Ensures a budget can be deleted from the redux store", () => {
     let tempStore = configureStore();
-    let wrapper = setupMount(tempStore, expectedBudget_3, [expectedBudget_3], []);
-    let rowLength = wrapper.find('.add-budget-table-row').length;
-    let firstDeleteBudgetBtn = wrapper.find('[name="budget-remove-btn"]').first();
-    firstDeleteBudgetBtn.simulate('click');
-    expect(wrapper.find('.add-budget-table-row').length).toEqual(rowLength - 1);
+    let wrapper = setupMount(tempStore, expectedBudget_1, [expectedBudget_1]);
+
+    // Dispatch the add action
+    let addBudgetAction = budgetActions.addBudget(expectedBudget_1);
+    tempStore.dispatch(addBudgetAction);
+
+    // This is how many budgets we have in the current state of the store
+    let prevNumBudgets = tempStore.getState().toJS().budgets.budgetItems.length;
+    expect(prevNumBudgets).toEqual(1);
+
+    // Find the first remove button and click it
+    wrapper.find('[name="budget-remove-btn"]').first().simulate('click');
+
+    // Expect the budget to be deleted from the store
+    expect(tempStore.getState().toJS().budgets.budgetItems.length).toEqual(prevNumBudgets - 1);
   });
 });
