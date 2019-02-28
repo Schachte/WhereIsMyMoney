@@ -71,6 +71,7 @@ class Budget extends Component {
               editingBudget={this.props.editingBudget}
               clearEditedBudget={this.props.actions.clearEditedBudget}
               updateExistingBudget={this.props.actions.updateExistingBudget}
+              removeBudget={this.props.actions.removeBudget}
             />
           }
         />

@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import courseApi from '../mockAPI/mockCourseApi';
+
 export function addBudget(budget) {
   return {
     type: types.ADD_BUDGET,
@@ -26,6 +27,14 @@ export function updateExistingBudget(oldBudget, newBudget) {
   return {
     type: types.UPDATE_EXISTING_BUDGET,
     payload: [oldBudget, newBudget]
+  };
+}
+
+export function removeBudget(budget) {
+  console.log(`Removing ${JSON.stringify(budget)}`)
+  return {
+    type: types.REMOVE_BUDGET,
+    payload: budget
   };
 }
 

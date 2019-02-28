@@ -22,6 +22,10 @@ export default function budgetReducer(state = initialState, action) {
     case types.UPDATE_EXISTING_BUDGET:
       return state.setIn(['budgetItems', getIdxOfBudget(state, action)],
                           Immutable.fromJS(action.payload[0]));
+
+    case types.REMOVE_BUDGET:
+      return state.removeIn(['budgetItems', getIdxOfBudget(state, action)]);
+
     default:
       return state;
   }
@@ -30,6 +34,11 @@ export default function budgetReducer(state = initialState, action) {
 // Find the exact index of a budget within the state budget items list
 const getIdxOfBudget = (state, action) => {
   return state.getIn(['budgetItems']).findIndex(function(item) {
-    return (item.get("budgetCategory") === action.payload[1].budgetCategory);
+    switch(action.type) {
+      case types.UPDATE_EXISTING_BUDGET:
+        return (item.get("budgetCategory") === action.payload[1].budgetCategory);
+      case types.REMOVE_BUDGET:
+        return (item.get("budgetCategory") === action.payload.budgetCategory);
+    }
   });
 };

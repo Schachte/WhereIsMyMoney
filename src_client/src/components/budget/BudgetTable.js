@@ -14,8 +14,7 @@ export const onChangeEdit = (field, data) => {
 };
 
 //TODO: REFACTOR THIS DUPLICATED SHIT CODE BELOW
-let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, updateExistingBudget) => {
-
+let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, updateExistingBudget, removeBudgetFn) => {
   return budgets.map((budget, key) => {
     if (editingBudget != null &&
       budget.budgetCategory == editingBudget.budgetCategory) {
@@ -72,6 +71,14 @@ let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, u
               className="btn btn-danger">Cancel Budget
             </button>
           </td>
+          <td>
+            <button
+              name="budget-remove-btn"
+              onClick={() => {removeBudgetFn(budget);}}
+              className="btn btn-danger">
+                <i className={'fa fa-trash-o'}></i>
+            </button>
+          </td>
         </tr>
       );
     }
@@ -81,16 +88,27 @@ let getBudgetItems = (budgets, editBudgetFn, editingBudget, clearEditedBudget, u
         <td>{budget.budgetCategory}</td>
         <td>${budget.budgetCost}</td>
         <td>{budget.budgetDate}</td>
-        <td><button
-          name="budget-edit-btn"
-          onClick={() => {editBudgetFn(budget);}}
-          className="btn btn-primary">Edit Budget</button></td>
+        <td>
+          <button
+            name="budget-edit-btn"
+            onClick={() => {editBudgetFn(budget);}}
+            className="btn btn-primary">Edit Budget
+          </button>
+        </td>
+        <td>
+          <button
+            name="budget-remove-btn"
+            onClick={() => {removeBudgetFn(budget);}}
+            className="btn btn-danger">
+              <i className={'fa fa-trash-o'}></i>
+          </button>
+        </td>
       </tr>
     );
   });
 };
 
-const RenderBudgetTable = ({ budgets, editBudget, editingBudget, clearEditedBudget, updateExistingBudget }) => {
+const RenderBudgetTable = ({ budgets, editBudget, editingBudget, clearEditedBudget, updateExistingBudget, removeBudget }) => {
   if (budgets.length == 0) {
     return (
       <h2 name="no-budgets-available">
@@ -112,7 +130,7 @@ const RenderBudgetTable = ({ budgets, editBudget, editingBudget, clearEditedBudg
           </tr>
         </thead>
         <tbody>
-          {getBudgetItems(budgets, editBudget, editingBudget, clearEditedBudget, updateExistingBudget)}
+          {getBudgetItems(budgets, editBudget, editingBudget, clearEditedBudget, updateExistingBudget, removeBudget)}
         </tbody>
       </table>
     </div>
@@ -124,7 +142,8 @@ RenderBudgetTable.propTypes = {
   editBudget: PropTypes.func,
   editingBudget: PropTypes.object,
   clearEditedBudget: PropTypes.func,
-  updateExistingBudget: PropTypes.func
+  updateExistingBudget: PropTypes.func,
+  removeBudget: PropTypes.func
 };
 
 export default RenderBudgetTable;
